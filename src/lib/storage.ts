@@ -1,39 +1,42 @@
-import { JournalEntry } from "@/lib/types/journal";
+import { prisma } from "./database";
+import { Entry } from "./types/journal";
 
-const STORAGE_KEY = "journal-entries";
+export const entryOperations = {
+    async createEntry(data: Omit<Entry, "id" | "createdAt">): Promise<Entry> {
+        const entry = await prisma.entry.create({
+            data: {
+                title: data.title,
+                content: data.content,
+                mood: data.mood,
+                favorited: data.favorited || false,
+                tags: data.tags ? JSON.stringify(data.tags) : null,
+            },
+        });
 
-export const getEntries = (): JournalEntry[] => {
-    if (typeof window === "undefined") return [];
+        return {
+            id: entry.id,
+            title: entry.title,
+            content: entry.content,
+            mood: entry.mood,
+            createdAt: entry.createdAt.toISOString(),
+            favorited: entry.favorited,
+            tags: entry.tags ? JSON.parse(entry.tags) : undefined,
+        };
+    },
 
-    try {
-        const stored = localStorage.getItem(STORAGE_KEY);
-        return stored ? JSON.parse(stored) : [];
-    } catch (error) {
-        console.error("Error reading from localStorage:", error);
-        return [];
-    }
-};
+    async getAllEntries(): Promise<Entry[]> {
+        const entries = await prisma.entry.findMany({
+            orderBy: { createdAt: "desc" },
+        });
 
-export const saveEntry = (entry: JournalEntry): void => {
-    if (typeof window === "undefined") return;
-
-    try {
-        const entries = getEntries();
-        const updatedEntries = [entry, ...entries];
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedEntries));
-    } catch (error) {
-        console.error("Error saving to localStorage:", error);
-    }
-};
-
-export const deleteEntry = (id: string): void => {
-    if (typeof window === "undefined") return;
-
-    try {
-        const entries = getEntries();
-        const filteredEntries = entries.filter((entry) => entry.id !== id);
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(filteredEntries));
-    } catch (error) {
-        console.error("Error deleting from localStorage:", error);
-    }
+        return entries.map((entry) => ({
+            id: entry.id,
+            title: entry.title,
+            content: entry.content,
+            mood: entry.mood,
+            createdAt: entry.createdAt.toISOString(),
+            favorited: entry.favorited,
+            tags: entry.tags ? JSON.parse(entry.tags) : undefined,
+        }));
+    },
 };
