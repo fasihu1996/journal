@@ -1,5 +1,5 @@
 import { prisma } from "./database";
-import { Entry } from "./types/journal";
+import { Entry, Mood } from "./types/journal";
 
 export const entryOperations = {
     async createEntry(data: Omit<Entry, "id" | "createdAt">): Promise<Entry> {
@@ -17,7 +17,7 @@ export const entryOperations = {
             id: entry.id,
             title: entry.title,
             content: entry.content,
-            mood: entry.mood,
+            mood: entry.mood as Mood,
             createdAt: entry.createdAt.toISOString(),
             favorited: entry.favorited,
             tags: entry.tags ? JSON.parse(entry.tags) : undefined,
@@ -33,7 +33,7 @@ export const entryOperations = {
             id: entry.id,
             title: entry.title,
             content: entry.content,
-            mood: entry.mood,
+            mood: entry.mood as Mood,
             createdAt: entry.createdAt.toISOString(),
             favorited: entry.favorited,
             tags: entry.tags ? JSON.parse(entry.tags) : undefined,
