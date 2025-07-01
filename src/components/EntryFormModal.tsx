@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { JournalEntry } from "@/lib/types";
-import { saveEntry } from "@/lib/storage";
+import { Entry } from "@/lib/types/journal";
+import { entriesApi } from "@/lib/api";
 
 interface EntryFormModalProps {
     isOpen: boolean;
@@ -18,32 +18,40 @@ export default function EntryFormModal({
 }: EntryFormModalProps) {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
-    const [mood, setMood] = useState<JournalEntry["mood"]>("okay");
+    const [mood, setMood] = useState<Entry["mood"]>("okay");
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     if (!isOpen) return null;
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         if (!title.trim() || !content.trim()) {
-            alert("Form is not valid");
             return;
         }
 
-        const newEntry: JournalEntry = {
-            id: Date.now().toString(),
-            title: title.trim(),
-            content: content.trim(),
-            mood,
-            createdAt: new Date().toISOString(),
-        };
+        setIsSubmitting(true);
 
-        saveEntry(newEntry);
-        setTitle("");
-        setContent("");
-        setMood("okay");
-        onClose();
-        onEntryAdded();
+        try {
+            await entriesApi.createEntry({
+                title: title.trim(),
+                content: content.trim(),
+                mood: mood || undefined,
+                favorited: false,
+                tags: [],
+            });
+
+            setTitle("");
+            setContent("");
+            setMood("okay");
+            onEntryAdded();
+            window.dispatchEvent(new CustomEvent("entriesUpdated"));
+            onClose();
+        } catch (error) {
+            console.error("Error creating entry:", error);
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     const handleBackdropClick = (e: React.MouseEvent) => {
@@ -66,17 +74,9 @@ export default function EntryFormModal({
             onClick={handleBackdropClick}
         >
             <div className="bg-card p-6 rounded-lg border shadow-lg max-w-md w-full max-h-[90vh] overflow-y-auto">
-                <div className="flex justify-between items-center mb-4">
-                    <h2 className="text-2xl font-bold text-card-foreground">
-                        New Journal Entry
-                    </h2>
-                    <button
-                        onClick={onClose}
-                        className="text-muted-foreground hover:text-foreground"
-                    >
-                        ✕
-                    </button>
-                </div>
+                <h2 className="text-xl font-bold text-card-foreground mb-4">
+                    New Journal Entry
+                </h2>
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
@@ -87,13 +87,13 @@ export default function EntryFormModal({
                             Title
                         </label>
                         <input
-                            type="text"
                             id="title"
+                            type="text"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
                             className="w-full px-3 py-2 border border-border rounded-md bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-                            placeholder="Something to remember this entry by"
-                            maxLength={100}
+                            placeholder="What's on your mind?"
+                            required
                         />
                     </div>
 
@@ -108,7 +108,7 @@ export default function EntryFormModal({
                             id="mood"
                             value={mood}
                             onChange={(e) =>
-                                setMood(e.target.value as JournalEntry["mood"])
+                                setMood(e.target.value as Entry["mood"])
                             }
                             className="w-full px-3 py-2 border border-border rounded-md bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
                         >
@@ -132,26 +132,28 @@ export default function EntryFormModal({
                             value={content}
                             onChange={(e) => setContent(e.target.value)}
                             rows={6}
-                            className="w-full px-3 py-2 border border-border rounded-md bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring resize-vertical"
-                            placeholder="Just let the words flow..."
-                            maxLength={2000}
+                            className="w-full px-3 py-2 border border-border rounded-md bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring resize-none"
+                            placeholder="Write about your day, thoughts, or feelings..."
+                            required
                         />
-                        <div className="text-sm text-muted-foreground mt-1">
-                            {content.length}/2000 characters
-                        </div>
                     </div>
 
-                    <div className="flex gap-2">
+                    <div className="flex gap-3 pt-4">
                         <Button
                             type="button"
                             variant="outline"
                             onClick={onClose}
                             className="flex-1"
+                            disabled={isSubmitting}
                         >
                             Cancel
                         </Button>
-                        <Button type="submit" className="flex-1">
-                            Save Entry
+                        <Button
+                            type="submit"
+                            className="flex-1"
+                            disabled={isSubmitting}
+                        >
+                            {isSubmitting ? "Saving..." : "Save Entry"}
                         </Button>
                     </div>
                 </form>
