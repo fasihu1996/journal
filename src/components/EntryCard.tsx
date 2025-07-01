@@ -14,14 +14,6 @@ const moodEmojis = {
     terrible: "😢",
 };
 
-const moodColors = {
-    great: "text-green-600",
-    good: "text-green-500",
-    okay: "text-yellow-500",
-    bad: "text-orange-500",
-    terrible: "text-red-500",
-};
-
 export default function EntryCard({ entry }: EntryCardProps) {
     const formatDate = (dateString: string) => {
         const date = new Date(dateString);
@@ -40,11 +32,7 @@ export default function EntryCard({ entry }: EntryCardProps) {
                 <h3 className="text-xl font-semibold text-card-foreground">
                     {entry.title}
                 </h3>
-                <div
-                    className={`flex items-center gap-1 ${
-                        moodColors[entry.mood]
-                    }`}
-                >
+                <div className="flex items-center gap-1">
                     <span className="text-lg">{moodEmojis[entry.mood]}</span>
                     <span className="text-sm font-medium capitalize">
                         {entry.mood}
