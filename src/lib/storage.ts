@@ -1,17 +1,21 @@
-import { prisma } from "./database";
-import { Entry, Mood } from "./types/journal";
+import { db } from "./database";
+import { entries } from "../db/schema";
+import { Entry, Mood } from "../types/journal";
+import { desc } from "drizzle-orm";
 
 export const entryOperations = {
     async createEntry(data: Omit<Entry, "id" | "createdAt">): Promise<Entry> {
-        const entry = await prisma.entry.create({
-            data: {
+        const [entry] = await db
+            .insert(entries)
+            .values({
                 title: data.title,
                 content: data.content,
                 mood: data.mood,
                 favorited: data.favorited || false,
-                tags: data.tags ? JSON.stringify(data.tags) : null,
-            },
-        });
+                tags: data.tags,
+                createdAt: new Date(),
+            })
+            .returning();
 
         return {
             id: entry.id,
@@ -20,23 +24,43 @@ export const entryOperations = {
             mood: entry.mood as Mood,
             createdAt: entry.createdAt.toISOString(),
             favorited: entry.favorited,
-            tags: entry.tags ? JSON.parse(entry.tags) : undefined,
+            tags: entry.tags,
         };
     },
 
     async getAllEntries(): Promise<Entry[]> {
-        const entries = await prisma.entry.findMany({
-            orderBy: { createdAt: "desc" },
-        });
+        const entriesList = await db
+            .select()
+            .from(entries)
+            .orderBy(desc(entries.createdAt));
 
-        return entries.map((entry) => ({
+        return entriesList.map((entry) => ({
             id: entry.id,
             title: entry.title,
             content: entry.content,
             mood: entry.mood as Mood,
             createdAt: entry.createdAt.toISOString(),
             favorited: entry.favorited,
-            tags: entry.tags ? JSON.parse(entry.tags) : undefined,
+            tags: entry.tags,
         }));
+    },
+
+    async getEntryById(id: number): Promise<Entry | null> {
+        const [entry] = await db
+            .select()
+            .from(entries)
+            .where(eq(entries.id, id));
+
+        if (!entry) return null;
+
+        return {
+            id: entry.id,
+            title: entry.title,
+            content: entry.content,
+            mood: entry.mood as Mood,
+            createdAt: entry.createdAt.toISOString(),
+            favorited: entry.favorited,
+            tags: entry.tags,
+        };
     },
 };
