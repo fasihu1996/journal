@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Entry } from "@/lib/types/journal";
+import { Entry } from "@/types/journal";
 import { entriesApi } from "@/lib/api";
 import EntryCard from "../components/EntryCard";
 

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Entry } from "@/lib/types/journal";
+import { Entry } from "@/types/journal";
 import { entriesApi } from "@/lib/api";
 
 interface EntryFormModalProps {

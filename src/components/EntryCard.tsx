@@ -1,6 +1,6 @@
 "use client";
 
-import { Entry } from "@/lib/types/journal";
+import { Entry } from "@/types/journal";
 
 interface EntryCardProps {
     entry: Entry;
