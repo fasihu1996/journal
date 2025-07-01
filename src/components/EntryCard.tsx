@@ -1,9 +1,9 @@
 "use client";
 
-import { JournalEntry } from "@/lib/types";
+import { Entry } from "@/lib/types/journal";
 
 interface EntryCardProps {
-    entry: JournalEntry;
+    entry: Entry;
 }
 
 const moodEmojis = {
