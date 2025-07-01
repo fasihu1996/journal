@@ -2,8 +2,10 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { DatePicker } from "@/components/DatePicker";
 import { Entry } from "@/types/journal";
 import { entriesApi } from "@/lib/api";
+import { toast } from "sonner";
 
 interface EntryFormModalProps {
     isOpen: boolean;
@@ -19,9 +21,28 @@ export default function EntryFormModal({
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [mood, setMood] = useState<Entry["mood"]>("okay");
+    const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
+    const [selectedTime, setSelectedTime] = useState<string>(
+        new Date().toLocaleTimeString("en-US", {
+            hour12: false,
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+        })
+    );
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     if (!isOpen) return null;
+
+    const createDateTime = () => {
+        const date = selectedDate || new Date();
+        const [hours, minutes, seconds] = selectedTime.split(':').map(Number);
+        
+        const dateTime = new Date(date);
+        dateTime.setHours(hours, minutes, seconds || 0);
+        
+        return dateTime;
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -33,22 +54,39 @@ export default function EntryFormModal({
         setIsSubmitting(true);
 
         try {
+            const entryDateTime = createDateTime();
+            
             await entriesApi.createEntry({
                 title: title.trim(),
                 content: content.trim(),
                 mood: mood || undefined,
                 favorited: false,
                 tags: [],
+                createdAt: entryDateTime.toISOString(),
             });
 
             setTitle("");
             setContent("");
             setMood("okay");
+            setSelectedDate(new Date());
+            setSelectedTime(new Date().toLocaleTimeString("en-US", {
+                hour12: false,
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
+            }));
+            
             onEntryAdded();
             window.dispatchEvent(new CustomEvent("entriesUpdated"));
-            onClose();
+            toast("Created successfully.", {
+                description: `New entry "${title}" has been created successfully.`,
+            });
+            setTimeout(() => {
+                onClose();
+            }, 100);
         } catch (error) {
             console.error("Error creating entry:", error);
+            toast.error("Failed to create new entry.");
         } finally {
             setIsSubmitting(false);
         }
@@ -61,7 +99,7 @@ export default function EntryFormModal({
     };
 
     const moodOptions = [
-        { value: "great", label: "😄 Great", color: "text-green-600" },
+        { value: "great", label: "😁 Great", color: "text-green-600" },
         { value: "good", label: "😊 Good", color: "text-green-500" },
         { value: "okay", label: "😐 Okay", color: "text-yellow-500" },
         { value: "bad", label: "😞 Bad", color: "text-orange-500" },
@@ -110,7 +148,7 @@ export default function EntryFormModal({
                             onChange={(e) =>
                                 setMood(e.target.value as Entry["mood"])
                             }
-                            className="w-full px-3 py-2 border border-border rounded-md bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                            className="w-full px-3 py-2 border border-border rounded-md bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring inset-1"
                         >
                             {moodOptions.map((option) => (
                                 <option key={option.value} value={option.value}>
@@ -135,6 +173,14 @@ export default function EntryFormModal({
                             className="w-full px-3 py-2 border border-border rounded-md bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring resize-none"
                             placeholder="Write about your day, thoughts, or feelings..."
                             required
+                        />
+                    </div>
+                    <div>
+                        <DatePicker 
+                            date={selectedDate}
+                            time={selectedTime}
+                            onDateChange={setSelectedDate}
+                            onTimeChange={setSelectedTime}
                         />
                     </div>
 
