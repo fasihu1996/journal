@@ -12,7 +12,7 @@ datasource db {
 
 model Entry {
   id        String   @id @default(cuid())
-  mood      String?
+  mood      String
   title     String
   content   String
   createdAt  DateTime  @default(now())
