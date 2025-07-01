@@ -11,7 +11,7 @@ export const entriesApi = {
         return response.json();
     },
 
-    async createEntry(entry: Omit<Entry, "id" | "createdAt">): Promise<Entry> {
+    async createEntry(entry: Omit<Entry, "id">): Promise<Entry> {
         const response = await fetch(`${API_BASE}/entries`, {
             method: "POST",
             headers: {
