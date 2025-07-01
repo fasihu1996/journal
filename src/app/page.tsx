@@ -1,20 +1,66 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { JournalEntry } from "@/lib/types";
-import { getEntries } from "@/lib/storage";
+import { Entry } from "@/lib/types/journal";
+import { entriesApi } from "@/lib/api";
 import EntryCard from "../components/EntryCard";
 
 export default function Home() {
-    const [entries, setEntries] = useState<JournalEntry[]>([]);
+    const [entries, setEntries] = useState<Entry[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
-    const loadEntries = () => {
-        setEntries(getEntries());
+    const loadEntries = async () => {
+        try {
+            setError(null);
+            const fetchedEntries = await entriesApi.getEntries();
+            setEntries(fetchedEntries);
+        } catch (err) {
+            console.error("Error loading entries:", err);
+            setError("Failed to load entries");
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     useEffect(() => {
         loadEntries();
+
+        const handleEntriesUpdated = () => {
+            loadEntries();
+        };
+
+        window.addEventListener("entriesUpdated", handleEntriesUpdated);
+        return () =>
+            window.removeEventListener("entriesUpdated", handleEntriesUpdated);
     }, []);
+
+    if (isLoading) {
+        return (
+            <div className="text-center py-12">
+                <h1 className="text-3xl font-bold text-foreground mb-4">
+                    Loading your entries...
+                </h1>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="text-center py-12">
+                <h1 className="text-3xl font-bold text-foreground mb-4">
+                    Error
+                </h1>
+                <p className="text-red-500 mb-4">{error}</p>
+                <button
+                    onClick={loadEntries}
+                    className="px-4 py-2 bg-primary text-primary-foreground rounded"
+                >
+                    Try Again
+                </button>
+            </div>
+        );
+    }
 
     if (entries.length === 0) {
         return (
