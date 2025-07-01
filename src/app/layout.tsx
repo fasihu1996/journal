@@ -15,7 +15,6 @@ export default function RootLayout({
     children: React.ReactNode;
 }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [refreshKey, setRefreshKey] = useState(0);
 
     const handleNewEntryClick = () => {
         setIsModalOpen(true);
@@ -26,8 +25,9 @@ export default function RootLayout({
     };
 
     const handleEntryAdded = () => {
-        setRefreshKey((prev) => prev + 1);
-        window.location.reload();
+        if (typeof window !== "undefined") {
+            window.dispatchEvent(new CustomEvent("entriesUpdated"));
+        }
     };
 
     return (
@@ -35,13 +35,12 @@ export default function RootLayout({
             <body className={inter.className}>
                 <ThemeProvider
                     attribute="class"
-                    defaultTheme="system"
-                    enableSystem
+                    defaultTheme="light"
                     disableTransitionOnChange
                 >
                     <Navbar onNewEntryClick={handleNewEntryClick} />
                     <main className="container mx-auto px-4 py-8">
-                        <div key={refreshKey}>{children}</div>
+                        {children}
                     </main>
                     <EntryFormModal
                         isOpen={isModalOpen}
