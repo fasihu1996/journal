@@ -4,7 +4,7 @@ import { Entry, Mood } from "../types/journal";
 import { eq, desc } from "drizzle-orm";
 
 export const entryOperations = {
-    async createEntry(data: Omit<Entry, "id" | "createdAt">): Promise<Entry> {
+    async createEntry(data: Omit<Entry, "id">): Promise<Entry> {
         const [entry] = await db
             .insert(entries)
             .values({
@@ -13,7 +13,9 @@ export const entryOperations = {
                 mood: data.mood,
                 favorited: data.favorited || false,
                 tags: data.tags,
-                createdAt: new Date(),
+                createdAt: data.createdAt
+                    ? new Date(data.createdAt)
+                    : new Date(),
             })
             .returning();
 

@@ -6,10 +6,8 @@ export const entries = sqliteTable("entries", {
     content: text("content").notNull(),
     mood: text("mood").notNull(),
     favorited: integer({ mode: "boolean" }).notNull().default(false),
-    tags: text("tags", { mode: "json" }),
-    createdAt: integer("createdAt", { mode: "timestamp" })
-        .notNull()
-        .$defaultFn(() => new Date()),
+    tags: text("tags", { mode: "json" }).notNull(),
+    createdAt: integer("createdAt", { mode: "timestamp" }).notNull(),
 });
 
 export type Entry = typeof entries.$inferSelect;

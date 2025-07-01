@@ -1,0 +1,1 @@
+ALTER TABLE `entries` ALTER COLUMN "tags" TO "tags" text NOT NULL;

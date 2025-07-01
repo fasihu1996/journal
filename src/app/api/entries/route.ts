@@ -3,13 +3,15 @@ import { entryOperations } from "@/lib/storage";
 
 export async function POST(request: NextRequest) {
     try {
-        const { title, content, mood, favorited, tags } = await request.json();
+        const { title, content, mood, favorited, tags, createdAt } =
+            await request.json();
         const entry = await entryOperations.createEntry({
             title,
             content,
             mood,
             favorited: Boolean(favorited),
             tags,
+            createdAt,
         });
         return NextResponse.json(entry);
     } catch (error) {

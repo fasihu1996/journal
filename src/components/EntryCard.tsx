@@ -7,7 +7,7 @@ interface EntryCardProps {
 }
 
 const moodEmojis = {
-    great: "😄",
+    great: "😁",
     good: "😊",
     okay: "😐",
     bad: "😞",
