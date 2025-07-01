@@ -1,30 +1,34 @@
 import { NextRequest, NextResponse } from "next/server";
 import { entryOperations } from "@/lib/storage";
 
-export async function GET() {
+export async function POST(request: NextRequest) {
     try {
-        const entries = await entryOperations.getAllEntries();
-        return NextResponse.json(entries);
+        const { title, content, mood, favorited, tags } = await request.json();
+        const entry = await entryOperations.createEntry({
+            title,
+            content,
+            mood,
+            favorited: Boolean(favorited),
+            tags,
+        });
+        return NextResponse.json(entry);
     } catch (error) {
-        console.error("Error fetching entries:", error);
+        console.error(error);
         return NextResponse.json(
-            { error: "Failed to fetch entries" },
+            { error: "Failed to create entry" },
             { status: 500 }
         );
     }
 }
 
-export async function POST(request: NextRequest) {
+export async function GET() {
     try {
-        const body = await request.json();
-
-        const entry = await entryOperations.createEntry(body);
-
-        return NextResponse.json(entry, { status: 201 });
+        const entries = await entryOperations.getAllEntries();
+        return NextResponse.json(entries);
     } catch (error) {
-        console.error("Error creating entry:", error);
+        console.error(error);
         return NextResponse.json(
-            { error: "Failed to create entry" },
+            { error: "Failed to fetch entries" },
             { status: 500 }
         );
     }

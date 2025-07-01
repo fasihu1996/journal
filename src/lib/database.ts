@@ -1,9 +1,17 @@
-import { PrismaClient } from "@prisma/client";
+import { drizzle } from "drizzle-orm/libsql";
+import { createClient } from "@libsql/client";
+import * as schema from "../db/schema";
+import { config } from "dotenv";
 
-const globalForPrisma = globalThis as unknown as {
-    prisma: PrismaClient | undefined;
-};
+if (!process.env.VERCEL) {
+    config({ path: ".env.local" });
+}
 
-export const prisma = globalForPrisma.prisma ?? new PrismaClient();
-
-if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
+// Use Turso for production, SQLite for local
+export const db = drizzle(
+    createClient({
+        url: process.env.DATABASE_URL!,
+        authToken: process.env.TURSO_AUTH_TOKEN!,
+    }),
+    { schema }
+);

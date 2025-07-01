@@ -1,10 +1,10 @@
 export type Mood = "great" | "good" | "okay" | "bad" | "terrible";
 
 export interface Entry {
-    id: string;
-    mood: Mood;
+    id: number;
     title: string;
     content: string;
+    mood: Mood;
     createdAt: string;
     favorited: boolean;
     tags?: string[];

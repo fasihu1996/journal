@@ -1,4 +1,4 @@
-import { Entry } from "./types/journal";
+import { Entry } from "../types/journal";
 
 const API_BASE = "/api";
 
