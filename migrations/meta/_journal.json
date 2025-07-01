@@ -8,6 +8,13 @@
       "when": 1751374334338,
       "tag": "0000_unknown_spiral",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1751376747097,
+      "tag": "0001_jittery_slipstream",
+      "breakpoints": true
     }
   ]
 }
