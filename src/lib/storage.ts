@@ -1,7 +1,7 @@
 import { db } from "./database";
 import { entries } from "../db/schema";
 import { Entry, Mood } from "../types/journal";
-import { desc } from "drizzle-orm";
+import { eq, desc } from "drizzle-orm";
 
 export const entryOperations = {
     async createEntry(data: Omit<Entry, "id" | "createdAt">): Promise<Entry> {
@@ -24,7 +24,7 @@ export const entryOperations = {
             mood: entry.mood as Mood,
             createdAt: entry.createdAt.toISOString(),
             favorited: entry.favorited,
-            tags: entry.tags,
+            tags: entry.tags as string[] | undefined,
         };
     },
 
@@ -41,7 +41,7 @@ export const entryOperations = {
             mood: entry.mood as Mood,
             createdAt: entry.createdAt.toISOString(),
             favorited: entry.favorited,
-            tags: entry.tags,
+            tags: entry.tags as string[] | undefined,
         }));
     },
 
@@ -60,7 +60,7 @@ export const entryOperations = {
             mood: entry.mood as Mood,
             createdAt: entry.createdAt.toISOString(),
             favorited: entry.favorited,
-            tags: entry.tags,
+            tags: entry.tags as string[] | undefined,
         };
     },
 };
