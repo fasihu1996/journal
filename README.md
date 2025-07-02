@@ -4,10 +4,8 @@
 
 After cloning the repository, perform the following actions:
 
-1. `npm install` to install dependencies
-2. `npx drizzle-kit generate` to create the database models
-3. `npx drizzle-kit migrate` to perform the migrations and create the tables
-4. `npm run dev` to start the local development server
+1. `npm run dev:first` this is a custom script, which will install all requirements, create the database migration file, perform the migrations to create the tables in the database and run the dev server. This is only required for the very first execution after cloning.
+2. Subsequent runs can simply use `npm run dev` instead.
 
 ## Implemented features
 
