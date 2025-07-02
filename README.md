@@ -1,10 +1,10 @@
-# Mindjournal
+# Moodjournal
 
 ## Instructions for running locally
 
 After cloning the repository, perform the following actions:
 
-1. `npm run dev:first` this is a custom script, which will install all requirements, create the database migration file, perform the migrations to create the tables in the database and run the dev server. This is only required for the very first execution after cloning.
+1. `npm run dev:first` will run a custom script, which installs all requirements, creates the database migration file, performs the migrations to create the tables in the database and runs the dev server. This is only required for the very first execution after cloning.
 2. Subsequent runs can simply use `npm run dev` instead.
 
 ## Implemented features
