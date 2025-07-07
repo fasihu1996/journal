@@ -2,7 +2,7 @@
 
 # custom additions
 dev.db
-.vscode
+/.vscode
 
 # dependencies
 /node_modules
