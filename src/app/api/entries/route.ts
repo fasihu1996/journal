@@ -14,9 +14,9 @@ export async function POST(request: NextRequest) {
       createdAt,
     });
     return NextResponse.json(entry);
-  } catch (error) {
+  } catch (_error) {
     return NextResponse.json(
-      { error: "Failed to create entry with error " + error },
+      { error: "Failed to create entry" },
       { status: 500 },
     );
   }
@@ -26,9 +26,9 @@ export async function GET() {
   try {
     const entries = await entryOperations.getAllEntries();
     return NextResponse.json(entries);
-  } catch (error) {
+  } catch (_error) {
     return NextResponse.json(
-      { error: "Failed to fetch entries with error " + error },
+      { error: "Failed to fetch entries" },
       { status: 500 },
     );
   }
