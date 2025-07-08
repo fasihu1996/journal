@@ -18,12 +18,6 @@ function Navbar({ onNewEntryClick }: NavbarProps) {
                     >
                         Moodjournal
                     </Link>
-                    <Link
-                        href="/entries"
-                        className="text-md font-bold text-primary font-mono tracking-wider"
-                    >
-                        Entries
-                    </Link>
                 </div>
                 <div className="ml-auto flex items-center space-x-4 justify-end">
                     <Button onClick={onNewEntryClick}>New entry</Button>
