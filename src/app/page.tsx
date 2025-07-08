@@ -5,6 +5,8 @@ import { Entry } from "@/types/journal";
 import { entriesApi } from "@/lib/api";
 import EntryCard from "../components/EntryCard";
 import { toast } from "sonner";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 
 export default function Home() {
   const [entries, setEntries] = useState<Entry[]>([]);
@@ -130,13 +132,19 @@ export default function Home() {
 
   return (
     <div className="space-y-8">
-      <div>
-        <h1 className="text-foreground mb-2 text-3xl font-bold">
-          Your Journal Entries
-        </h1>
-        <p className="text-muted-foreground">
-          {entries.length} {entries.length === 1 ? "entry" : "entries"}
-        </p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-foreground mb-2 text-3xl font-bold">
+            Your Journal Entries
+          </h1>
+          <p className="text-muted-foreground">
+            {entries.length} {entries.length === 1 ? "entry" : "entries"}
+          </p>
+        </div>
+        <div className="flex items-center space-x-2">
+          <Switch id="favorites-only" />
+          <Label htmlFor="favorites-only">Show favorites only</Label>
+        </div>
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
