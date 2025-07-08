@@ -5,6 +5,7 @@ import { FavoriteButton } from "./FavoriteButton";
 
 interface EntryCardProps {
   entry: Entry;
+  onToggleFavorite: (entryId: number, favorited: boolean) => void;
 }
 
 const moodEmojis = {
@@ -15,7 +16,7 @@ const moodEmojis = {
   terrible: "😢",
 };
 
-export default function EntryCard({ entry }: EntryCardProps) {
+export default function EntryCard({ entry, onToggleFavorite }: EntryCardProps) {
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-DE", {
@@ -27,6 +28,15 @@ export default function EntryCard({ entry }: EntryCardProps) {
     });
   };
 
+  const trimContent = (content: string, maxLength: number = 250) => {
+    if (content.length <= maxLength) return content;
+    return content.substring(0, maxLength) + "...";
+  };
+
+  const handleFavoriteToggle = (favorited: boolean) => {
+    onToggleFavorite(entry.id, favorited);
+  };
+
   return (
     <div className="bg-card rounded-lg border p-6 shadow-sm transition-shadow hover:shadow-md">
       <div className="mb-3 flex items-start justify-between">
@@ -34,7 +44,10 @@ export default function EntryCard({ entry }: EntryCardProps) {
           <h3 className="text-card-foreground text-xl font-semibold">
             {entry.title}
           </h3>
-          <FavoriteButton favorited={entry.favorited} />
+          <FavoriteButton
+            favorited={entry.favorited}
+            onToggle={handleFavoriteToggle}
+          />
         </div>
         <div className="flex items-center gap-1">
           <span className="text-lg">{moodEmojis[entry.mood]}</span>
@@ -42,7 +55,9 @@ export default function EntryCard({ entry }: EntryCardProps) {
         </div>
       </div>
 
-      <p className="text-muted-foreground mb-4 line-clamp-3">{entry.content}</p>
+      <p className="text-muted-foreground mb-4 line-clamp-3">
+        {trimContent(entry.content)}
+      </p>
 
       <div className="text-muted-foreground text-sm">
         {formatDate(entry.createdAt)}
