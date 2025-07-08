@@ -41,7 +41,7 @@ export default function RootLayout({
         >
           <Navbar onNewEntryClick={handleNewEntryClick} />
           <main className="container mx-auto px-4 py-8">{children}</main>
-          <Toaster />
+          <Toaster position="top-right" richColors />
           <EntryFormModal
             isOpen={isModalOpen}
             onClose={handleModalClose}
