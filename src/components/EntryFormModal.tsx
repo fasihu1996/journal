@@ -6,6 +6,7 @@ import { DatePicker } from "@/components/DatePicker";
 import { Entry } from "@/types/journal";
 import { entriesApi } from "@/lib/api";
 import { toast } from "sonner";
+import { FavoriteButton } from "@/components/FavoriteButton";
 
 interface EntryFormModalProps {
     isOpen: boolean;
@@ -21,7 +22,10 @@ export default function EntryFormModal({
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [mood, setMood] = useState<Entry["mood"]>("okay");
-    const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
+    const [favorited, setFavorited] = useState(false);
+    const [selectedDate, setSelectedDate] = useState<Date | undefined>(
+        new Date()
+    );
     const [selectedTime, setSelectedTime] = useState<string>(
         new Date().toLocaleTimeString("en-US", {
             hour12: false,
@@ -36,11 +40,11 @@ export default function EntryFormModal({
 
     const createDateTime = () => {
         const date = selectedDate || new Date();
-        const [hours, minutes, seconds] = selectedTime.split(':').map(Number);
-        
+        const [hours, minutes, seconds] = selectedTime.split(":").map(Number);
+
         const dateTime = new Date(date);
         dateTime.setHours(hours, minutes, seconds || 0);
-        
+
         return dateTime;
     };
 
@@ -55,12 +59,12 @@ export default function EntryFormModal({
 
         try {
             const entryDateTime = createDateTime();
-            
+
             await entriesApi.createEntry({
                 title: title.trim(),
                 content: content.trim(),
                 mood: mood || undefined,
-                favorited: false,
+                favorited: favorited,
                 tags: [],
                 createdAt: entryDateTime.toISOString(),
             });
@@ -68,14 +72,17 @@ export default function EntryFormModal({
             setTitle("");
             setContent("");
             setMood("okay");
+            setFavorited(false);
             setSelectedDate(new Date());
-            setSelectedTime(new Date().toLocaleTimeString("en-US", {
-                hour12: false,
-                hour: "2-digit",
-                minute: "2-digit",
-                second: "2-digit",
-            }));
-            
+            setSelectedTime(
+                new Date().toLocaleTimeString("en-US", {
+                    hour12: false,
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    second: "2-digit",
+                })
+            );
+
             onEntryAdded();
             window.dispatchEvent(new CustomEvent("entriesUpdated"));
             toast("Created successfully.", {
@@ -112,10 +119,15 @@ export default function EntryFormModal({
             onClick={handleBackdropClick}
         >
             <div className="bg-card p-6 rounded-lg border shadow-lg max-w-md w-full max-h-[90vh] overflow-y-auto">
-                <h2 className="text-xl font-bold text-card-foreground mb-4">
-                    New Journal Entry
-                </h2>
-
+                <div className="flex items-center justify-between mb-4">
+                    <h2 className="text-xl font-bold text-card-foreground">
+                        New Journal Entry
+                    </h2>
+                    <FavoriteButton
+                        favorited={favorited}
+                        onToggle={setFavorited}
+                    />
+                </div>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
                         <label
@@ -176,7 +188,7 @@ export default function EntryFormModal({
                         />
                     </div>
                     <div>
-                        <DatePicker 
+                        <DatePicker
                             date={selectedDate}
                             time={selectedTime}
                             onDateChange={setSelectedDate}
