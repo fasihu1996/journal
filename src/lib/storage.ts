@@ -60,4 +60,53 @@ export const entryOperations = {
       tags: entry.tags as string[] | undefined,
     };
   },
+
+  async updateEntry(
+    id: number,
+    data: Partial<Omit<Entry, "id">>,
+  ): Promise<Entry | null> {
+    const updateData: Partial<{
+      title: string;
+      content: string;
+      mood: string;
+      favorited: boolean;
+      tags: string[] | null;
+      createdAt: Date;
+    }> = {};
+
+    if (data.title !== undefined) updateData.title = data.title;
+    if (data.content !== undefined) updateData.content = data.content;
+    if (data.mood !== undefined) updateData.mood = data.mood;
+    if (data.favorited !== undefined) updateData.favorited = data.favorited;
+    if (data.tags !== undefined) updateData.tags = data.tags;
+    if (data.createdAt !== undefined)
+      updateData.createdAt = new Date(data.createdAt);
+
+    const [updatedEntry] = await db
+      .update(entries)
+      .set(updateData)
+      .where(eq(entries.id, id))
+      .returning();
+
+    if (!updatedEntry) return null;
+
+    return {
+      id: updatedEntry.id,
+      title: updatedEntry.title,
+      content: updatedEntry.content,
+      mood: updatedEntry.mood as Mood,
+      createdAt: updatedEntry.createdAt.toISOString(),
+      favorited: updatedEntry.favorited,
+      tags: updatedEntry.tags as string[] | undefined,
+    };
+  },
+
+  async deleteEntry(id: number): Promise<boolean> {
+    const result = await db
+      .delete(entries)
+      .where(eq(entries.id, id))
+      .returning({ id: entries.id });
+
+    return result.length > 0;
+  },
 };

@@ -26,4 +26,23 @@ export const entriesApi = {
 
     return response.json();
   },
+
+  async updateEntry(
+    id: number,
+    entry: Partial<Omit<Entry, "id">>,
+  ): Promise<Entry> {
+    const response = await fetch(`${API_BASE}/entries/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(entry),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to update entry");
+    }
+
+    return response.json();
+  },
 };
