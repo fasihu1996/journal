@@ -12,6 +12,7 @@ export default function Home() {
   const [entries, setEntries] = useState<Entry[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [favoritesOnly, setFavoritesOnly] = useState(false);
 
   const loadEntries = async () => {
     try {
@@ -51,6 +52,10 @@ export default function Home() {
       );
     }
   };
+
+  const displayedEntries = favoritesOnly
+    ? entries.filter((entry) => entry.favorited)
+    : entries;
 
   useEffect(() => {
     loadEntries();
@@ -138,17 +143,24 @@ export default function Home() {
             Your Journal Entries
           </h1>
           <p className="text-muted-foreground">
-            {entries.length} {entries.length === 1 ? "entry" : "entries"}
+            {displayedEntries.length}{" "}
+            {displayedEntries.length === 1 ? "entry" : "entries"}
           </p>
         </div>
         <div className="flex items-center space-x-2">
-          <Switch id="favorites-only" />
-          <Label htmlFor="favorites-only">Show favorites only</Label>
+          <Switch
+            id="favorites-only"
+            checked={favoritesOnly}
+            onCheckedChange={setFavoritesOnly}
+          />
+          <Label htmlFor="favorites-only" className="text-md">
+            Show favorites only
+          </Label>
         </div>
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {entries.map((entry) => (
+        {displayedEntries.map((entry) => (
           <EntryCard
             key={entry.id}
             entry={entry}
