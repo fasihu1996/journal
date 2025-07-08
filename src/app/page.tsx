@@ -37,10 +37,35 @@ export default function Home() {
 
     if (isLoading) {
         return (
-            <div className="text-center py-12">
-                <h1 className="text-3xl font-bold text-foreground mb-4">
-                    Loading your entries...
-                </h1>
+            <div className="space-y-8">
+                <div>
+                    <div className="animate-pulse rounded-md bg-muted h-9 w-64 mb-2" />
+                    <div className="animate-pulse rounded-md bg-muted h-5 w-32" />
+                </div>
+
+                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                    {Array.from({ length: 12 }).map((_, i) => (
+                        <div
+                            key={i}
+                            className="bg-card p-6 rounded-lg border shadow-sm"
+                        >
+                            <div className="flex justify-between items-start mb-3">
+                                <div className="animate-pulse rounded-md bg-muted h-6 w-3/4" />
+                                <div className="flex items-center gap-1">
+                                    <div className="animate-pulse rounded-full bg-muted h-6 w-6" />
+                                    <div className="animate-pulse rounded-md bg-muted h-4 w-16" />
+                                </div>
+                            </div>
+                            <div className="space-y-2 mb-4">
+                                <div className="animate-pulse rounded-md bg-muted h-4 w-full" />
+                                <div className="animate-pulse rounded-md bg-muted h-4 w-full" />
+                                <div className="animate-pulse rounded-md bg-muted h-4 w-3/4" />
+                                <div className="animate-pulse rounded-md bg-muted h-4 w-1/2" />
+                            </div>
+                            <div className="animate-pulse rounded-md bg-muted h-4 w-32" />
+                        </div>
+                    ))}
+                </div>
             </div>
         );
     }
