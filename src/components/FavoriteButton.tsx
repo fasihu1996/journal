@@ -13,7 +13,7 @@ export function FavoriteButton({ favorited, onToggle }: FavoriteButtonProps) {
 
   useEffect(() => {
     if (animate) {
-      const timeout = setTimeout(() => setAnimate(false), 100);
+      const timeout = setTimeout(() => setAnimate(false), 30);
       return () => clearTimeout(timeout);
     }
   }, [animate]);
@@ -35,7 +35,7 @@ export function FavoriteButton({ favorited, onToggle }: FavoriteButtonProps) {
           favorited
             ? "fill-yellow-400 text-yellow-400"
             : "text-muted-foreground"
-        } ${animate ? "scale-150" : "scale-100"}`}
+        } ${animate ? "scale-130" : "scale-100"}`}
       />
     </Toggle>
   );
