@@ -6,6 +6,7 @@ import { FavoriteButton } from "./FavoriteButton";
 interface EntryCardProps {
   entry: Entry;
   onToggleFavorite: (entryId: number, favorited: boolean) => void;
+  onClickEntry: (entryId: number) => void;
 }
 
 const moodEmojis = {
@@ -16,7 +17,11 @@ const moodEmojis = {
   terrible: "😢",
 };
 
-export default function EntryCard({ entry, onToggleFavorite }: EntryCardProps) {
+export default function EntryCard({
+  entry,
+  onToggleFavorite,
+  onClickEntry,
+}: EntryCardProps) {
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-DE", {
@@ -38,7 +43,10 @@ export default function EntryCard({ entry, onToggleFavorite }: EntryCardProps) {
   };
 
   return (
-    <div className="bg-card rounded-lg border p-6 shadow-sm transition-shadow hover:shadow-md">
+    <div
+      className="bg-card rounded-lg border p-6 shadow-sm transition-shadow hover:shadow-md"
+      onClick={() => onClickEntry(entry.id)}
+    >
       <div className="mb-3">
         <div className="mb-1 flex items-center justify-between gap-4">
           <h3 className="text-card-foreground text-xl font-semibold">
