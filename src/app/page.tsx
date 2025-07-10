@@ -7,9 +7,11 @@ import EntryCard from "../components/EntryCard";
 import { toast } from "sonner";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
+import EntryModal from "@/components/EntryModal";
 
 export default function Home() {
   const [entries, setEntries] = useState<Entry[]>([]);
+  const [selectedEntry, setSelectedEntry] = useState<Entry>();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [favoritesOnly, setFavoritesOnly] = useState(false);
@@ -26,16 +28,18 @@ export default function Home() {
     }
   };
 
+  const handleEntryClick = async (entryId: number) => {
+    const entry = entries.find((e) => e.id === entryId);
+    if (entry) setSelectedEntry(entry);
+  };
+
   const handleToggleFavorite = async (entryId: number, favorited: boolean) => {
     try {
-      // update UI before actual database change
       setEntries((prevEntries) =>
         prevEntries.map((entry) =>
           entry.id === entryId ? { ...entry, favorited } : entry,
         ),
       );
-
-      // send change to API
       await entriesApi.updateEntry(entryId, { favorited });
 
       toast.success(
@@ -44,7 +48,6 @@ export default function Home() {
     } catch (_error) {
       toast.error("Failed to update favorite status");
 
-      // revert UI if API failed
       setEntries((prevEntries) =>
         prevEntries.map((entry) =>
           entry.id === entryId ? { ...entry, favorited: !favorited } : entry,
@@ -165,9 +168,16 @@ export default function Home() {
             key={entry.id}
             entry={entry}
             onToggleFavorite={handleToggleFavorite}
+            onClickEntry={handleEntryClick}
           />
         ))}
       </div>
+      {selectedEntry && (
+        <EntryModal
+          entry={selectedEntry}
+          onClose={() => setSelectedEntry(null)}
+        />
+      )}
     </div>
   );
 }
