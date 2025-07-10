@@ -27,13 +27,12 @@ After cloning the repository, you have two options. You can either use the scrip
 2. Creation and display of new entries
    1. An entry consists of a title and a content of variable length.
    2. A new entry is assigned the current date during creation.
-
-### Work in progress:
-
 3. Important entries can be highlighted.
    1. Highlighted entries are easily accessible, e.g. through a separate list or filters.
    2. Highlights can be dynamically set and removed by the user, so they are added or removed from the filter view
    3. Highlighted entries can be visually differenciated from normal entries
+
+### Work in progress:
 
 4. Entries only show 250 symbols of content.
    1. If the content is shorter than 250 symbols, the entire content is shown.
