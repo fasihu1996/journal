@@ -1,6 +1,6 @@
 "use client";
 
-import { Inter } from "next/font/google";
+import { Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import Navbar from "../components/Navbar";
@@ -8,7 +8,7 @@ import EntryFormModal from "@/components/EntryFormModal";
 import { useState } from "react";
 import { Toaster } from "@/components/ui/sonner";
 
-const inter = Inter({ subsets: ["latin"] });
+const space = Space_Grotesk({ subsets: ["latin"] });
 
 export default function RootLayout({
   children,
@@ -33,7 +33,7 @@ export default function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
+      <body className={space.className}>
         <ThemeProvider
           attribute="class"
           defaultTheme="light"
