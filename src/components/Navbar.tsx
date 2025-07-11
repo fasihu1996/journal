@@ -14,13 +14,15 @@ function Navbar({ onNewEntryClick }: NavbarProps) {
         <div className="flex items-center">
           <Link
             href="/"
-            className="text-primary p-4 font-mono text-xl font-bold tracking-wider"
+            className="text-primary p-4 font-mono text-3xl font-bold tracking-wider"
           >
             Moodjournal
           </Link>
         </div>
         <div className="ml-auto flex items-center justify-end space-x-4">
-          <Button onClick={onNewEntryClick}>New entry</Button>
+          <Button variant="outline" onClick={onNewEntryClick}>
+            New entry
+          </Button>
           <ModeToggle />
         </div>
       </div>
