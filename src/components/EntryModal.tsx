@@ -1,5 +1,6 @@
 import { Entry } from "@/types/journal";
 import EntryContent from "./EntryContent";
+import { useEffect, useState } from "react";
 
 interface EntryModalProps {
   entry: Entry;
@@ -12,6 +13,12 @@ export default function EntryModal({
   onClose,
   onToggleFavorite,
 }: EntryModalProps) {
+  const [currentEntry, setCurrentEntry] = useState(entry);
+
+  useEffect(() => {
+    setCurrentEntry(entry);
+  }, [entry]);
+
   const handleBackdropClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
       onClose();
@@ -19,7 +26,8 @@ export default function EntryModal({
   };
 
   const handleFavoriteToggle = (favorited: boolean) => {
-    onToggleFavorite(entry.id, favorited);
+    setCurrentEntry((prev) => ({ ...prev, favorited }));
+    onToggleFavorite(currentEntry.id, favorited);
   };
 
   return (
@@ -29,7 +37,7 @@ export default function EntryModal({
     >
       <div className="max-h-[80vh] w-full max-w-2xl overflow-y-auto">
         <EntryContent
-          entry={entry}
+          entry={currentEntry}
           onToggleFavorite={handleFavoriteToggle}
           isModal={true}
           className="shadow-2xl"
