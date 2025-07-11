@@ -180,7 +180,7 @@ export default function Home() {
       {selectedEntry && (
         <EntryModal
           entry={selectedEntry}
-          onClose={() => setSelectedEntry(null)}
+          onClose={() => setSelectedEntry(undefined)}
         />
       )}
     </div>
