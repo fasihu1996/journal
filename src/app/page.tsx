@@ -181,6 +181,7 @@ export default function Home() {
         <EntryModal
           entry={selectedEntry}
           onClose={() => setSelectedEntry(undefined)}
+          onToggleFavorite={handleToggleFavorite}
         />
       )}
     </div>
