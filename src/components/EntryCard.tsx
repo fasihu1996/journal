@@ -7,6 +7,7 @@ interface EntryCardProps {
   entry: Entry;
   onToggleFavorite: (entryId: number, favorited: boolean) => void;
   onClickEntry: (entryId: number) => void;
+  className?: string;
 }
 
 const moodEmojis = {
@@ -21,6 +22,7 @@ export default function EntryCard({
   entry,
   onToggleFavorite,
   onClickEntry,
+  className,
 }: EntryCardProps) {
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -44,7 +46,7 @@ export default function EntryCard({
 
   return (
     <div
-      className="bg-card rounded-lg border p-6 shadow-sm transition-shadow hover:shadow-md"
+      className={`bg-card rounded-lg border p-6 shadow-sm transition-shadow hover:shadow-md ${className}`}
       onClick={() => onClickEntry(entry.id)}
     >
       <div className="mb-3">
