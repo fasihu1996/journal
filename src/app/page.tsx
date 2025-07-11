@@ -81,20 +81,25 @@ export default function Home() {
         </div>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {Array.from({ length: 12 }).map((_, i) => (
-            <div key={i} className="bg-card rounded-lg border p-6 shadow-sm">
-              <div className="mb-3 flex items-start justify-between">
-                <div className="bg-muted h-6 w-3/4 animate-pulse rounded-md" />
-                <div className="flex items-center gap-1">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <div
+              key={i}
+              className="bg-card rounded-lg border p-6 shadow-sm transition-shadow hover:shadow-md"
+            >
+              <div className="mb-3">
+                <div className="mb-1 flex items-center justify-between gap-4">
+                  <div className="bg-muted h-6 w-2/3 animate-pulse rounded-md" />
                   <div className="bg-muted h-6 w-6 animate-pulse rounded-full" />
+                </div>
+                <div className="mt-1 flex items-center gap-1">
+                  <div className="bg-muted h-5 w-5 animate-pulse rounded-full" />
                   <div className="bg-muted h-4 w-16 animate-pulse rounded-md" />
                 </div>
               </div>
               <div className="mb-4 space-y-2">
                 <div className="bg-muted h-4 w-full animate-pulse rounded-md" />
-                <div className="bg-muted h-4 w-full animate-pulse rounded-md" />
-                <div className="bg-muted h-4 w-3/4 animate-pulse rounded-md" />
-                <div className="bg-muted h-4 w-1/2 animate-pulse rounded-md" />
+                <div className="bg-muted h-4 w-5/6 animate-pulse rounded-md" />
+                <div className="bg-muted h-4 w-2/3 animate-pulse rounded-md" />
               </div>
               <div className="bg-muted h-4 w-32 animate-pulse rounded-md" />
             </div>
