@@ -12,7 +12,7 @@ After cloning the repository, you have two options. You can either use the scrip
 ### Fully manual setup
 
 1. After closing the repo, run `npm run install` to install the required packages.
-2. Run the command `echo 'DATABASE_URL="file:./dev.db"' > .env.local` to create a local environment file, which points the project to the database location. This database will automatically be created later.
+2. Run the command `echo 'DATABASE_URL="file:./dev.db"' > .env.local` to create a local environment file, which points the project to the database location. The database file itself will be created later automatically.
 3. Run `npx drizzle-kit generate` to create the database migrations based on the drizzle schema.
 4. Run `npx drizzle-kit migrate` to perform the migrations on the dev.db database file.
 5. Run `npm run dev` to start the development server.
@@ -22,23 +22,18 @@ After cloning the repository, you have two options. You can either use the scrip
 ### Mandatory features
 
 1. All journal entries are displayed.
-    1. The newest entry is displayed first.
-    2. Each entry shows the title, the creation date, the content and the mood.
+   1. The newest entry is displayed first.
+   2. Each entry shows the title, the creation date, the content and the mood.
 2. Creation and display of new entries
-    1. An entry consists of a title and a content of variable length.
-    2. A new entry is assigned the current date during creation.
-
-### Work in progress:
-
+   1. An entry consists of a title and a content of variable length.
+   2. A new entry is assigned the current date during creation.
 3. Important entries can be highlighted.
-
-    1. Highlighted entries are easily accessible, e.g. through a separate list or filters.
-    2. Highlights can be dynamically set and removed by the user, so they are added or removed from the filter view
-    3. Highlighted entries can be visually differenciated from normal entries
-
+   1. Highlighted entries are easily accessible, e.g. through a separate list or filters.
+   2. Highlights can be dynamically set and removed by the user, so they are added or removed from the filter view
+   3. Highlighted entries can be visually differenciated from normal entries
 4. Entries only show 250 symbols of content.
-    1. If the content is shorter than 250 symbols, the entire content is shown.
-    2. For longer content, the user can show the full entry through an interaction.
+   1. If the content is shorter than 250 symbols, the entire content is shown.
+   2. For longer content, the user can show the full entry through an interaction.
 
 ### Optional features
 
@@ -48,10 +43,10 @@ After cloning the repository, you have two options. You can either use the scrip
 ### Work in progress:
 
 3. New entries can be marked with tags
-    1. Tags are displayed for each entry
-    2. Previous tags are suggested while typing
-    3. New tags can be set during entry creation and are suggested on future creations
+   1. Tags are displayed for each entry
+   2. Previous tags are suggested while typing
+   3. New tags can be set during entry creation and are suggested on future creations
 4. Not all entries are immediately loaded. Additional entries are either loaded manually or through user interaction
-    1. The chronological order of the entries remains
+   1. The chronological order of the entries remains
 
 ## Tests

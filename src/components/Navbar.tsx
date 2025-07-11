@@ -4,28 +4,30 @@ import ModeToggle from "./ModeToggle";
 import { Button } from "@/components/ui/button";
 
 interface NavbarProps {
-    onNewEntryClick: () => void;
+  onNewEntryClick: () => void;
 }
 
 function Navbar({ onNewEntryClick }: NavbarProps) {
-    return (
-        <nav className="sticky top-0 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-50">
-            <div className="flex items-center justify-between h-16 px-4">
-                <div className="flex items-center">
-                    <Link
-                        href="/"
-                        className="text-xl font-bold text-primary font-mono tracking-wider p-4"
-                    >
-                        Moodjournal
-                    </Link>
-                </div>
-                <div className="ml-auto flex items-center space-x-4 justify-end">
-                    <Button onClick={onNewEntryClick}>New entry</Button>
-                    <ModeToggle />
-                </div>
-            </div>
-        </nav>
-    );
+  return (
+    <nav className="bg-background/95 supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 w-full border-b backdrop-blur">
+      <div className="flex h-16 items-center justify-between px-4">
+        <div className="flex items-center">
+          <Link
+            href="/"
+            className="text-primary p-4 font-mono text-3xl font-bold tracking-wider"
+          >
+            Moodjournal
+          </Link>
+        </div>
+        <div className="ml-auto flex items-center justify-end space-x-4">
+          <Button variant="outline" onClick={onNewEntryClick}>
+            New entry
+          </Button>
+          <ModeToggle />
+        </div>
+      </div>
+    </nav>
+  );
 }
 
 export default Navbar;

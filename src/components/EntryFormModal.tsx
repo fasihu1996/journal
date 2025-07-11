@@ -85,7 +85,7 @@ export default function EntryFormModal({
 
       onEntryAdded();
       window.dispatchEvent(new CustomEvent("entriesUpdated"));
-      toast("Created successfully.", {
+      toast.success("Created successfully.", {
         description: `New entry "${title}" has been created successfully.`,
       });
       setTimeout(() => {

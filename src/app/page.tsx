@@ -5,11 +5,16 @@ import { Entry } from "@/types/journal";
 import { entriesApi } from "@/lib/api";
 import EntryCard from "../components/EntryCard";
 import { toast } from "sonner";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
+import EntryModal from "@/components/EntryModal";
 
 export default function Home() {
   const [entries, setEntries] = useState<Entry[]>([]);
+  const [selectedEntry, setSelectedEntry] = useState<Entry>();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [favoritesOnly, setFavoritesOnly] = useState(false);
 
   const loadEntries = async () => {
     try {
@@ -23,16 +28,18 @@ export default function Home() {
     }
   };
 
+  const handleEntryClick = async (entryId: number) => {
+    const entry = entries.find((e) => e.id === entryId);
+    if (entry) setSelectedEntry(entry);
+  };
+
   const handleToggleFavorite = async (entryId: number, favorited: boolean) => {
     try {
-      // update UI before actual database change
       setEntries((prevEntries) =>
         prevEntries.map((entry) =>
           entry.id === entryId ? { ...entry, favorited } : entry,
         ),
       );
-
-      // send change to API
       await entriesApi.updateEntry(entryId, { favorited });
 
       toast.success(
@@ -41,7 +48,6 @@ export default function Home() {
     } catch (_error) {
       toast.error("Failed to update favorite status");
 
-      // revert UI if API failed
       setEntries((prevEntries) =>
         prevEntries.map((entry) =>
           entry.id === entryId ? { ...entry, favorited: !favorited } : entry,
@@ -49,6 +55,10 @@ export default function Home() {
       );
     }
   };
+
+  const displayedEntries = favoritesOnly
+    ? entries.filter((entry) => entry.favorited)
+    : entries;
 
   useEffect(() => {
     loadEntries();
@@ -71,20 +81,25 @@ export default function Home() {
         </div>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {Array.from({ length: 12 }).map((_, i) => (
-            <div key={i} className="bg-card rounded-lg border p-6 shadow-sm">
-              <div className="mb-3 flex items-start justify-between">
-                <div className="bg-muted h-6 w-3/4 animate-pulse rounded-md" />
-                <div className="flex items-center gap-1">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <div
+              key={i}
+              className="bg-card rounded-lg border p-6 shadow-sm transition-shadow hover:shadow-md"
+            >
+              <div className="mb-3">
+                <div className="mb-1 flex items-center justify-between gap-4">
+                  <div className="bg-muted h-6 w-2/3 animate-pulse rounded-md" />
                   <div className="bg-muted h-6 w-6 animate-pulse rounded-full" />
+                </div>
+                <div className="mt-1 flex items-center gap-1">
+                  <div className="bg-muted h-5 w-5 animate-pulse rounded-full" />
                   <div className="bg-muted h-4 w-16 animate-pulse rounded-md" />
                 </div>
               </div>
               <div className="mb-4 space-y-2">
                 <div className="bg-muted h-4 w-full animate-pulse rounded-md" />
-                <div className="bg-muted h-4 w-full animate-pulse rounded-md" />
-                <div className="bg-muted h-4 w-3/4 animate-pulse rounded-md" />
-                <div className="bg-muted h-4 w-1/2 animate-pulse rounded-md" />
+                <div className="bg-muted h-4 w-5/6 animate-pulse rounded-md" />
+                <div className="bg-muted h-4 w-2/3 animate-pulse rounded-md" />
               </div>
               <div className="bg-muted h-4 w-32 animate-pulse rounded-md" />
             </div>
@@ -130,24 +145,44 @@ export default function Home() {
 
   return (
     <div className="space-y-8">
-      <div>
-        <h1 className="text-foreground mb-2 text-3xl font-bold">
-          Your Journal Entries
-        </h1>
-        <p className="text-muted-foreground">
-          {entries.length} {entries.length === 1 ? "entry" : "entries"}
-        </p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-foreground mb-2 text-3xl font-bold">
+            Your Journal Entries
+          </h1>
+          <p className="text-muted-foreground">
+            {displayedEntries.length}{" "}
+            {displayedEntries.length === 1 ? "entry" : "entries"}
+          </p>
+        </div>
+        <div className="flex items-center space-x-2">
+          <Switch
+            id="favorites-only"
+            checked={favoritesOnly}
+            onCheckedChange={setFavoritesOnly}
+          />
+          <Label htmlFor="favorites-only" className="text-md">
+            Show favorites only
+          </Label>
+        </div>
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {entries.map((entry) => (
+        {displayedEntries.map((entry) => (
           <EntryCard
             key={entry.id}
             entry={entry}
             onToggleFavorite={handleToggleFavorite}
+            onClickEntry={handleEntryClick}
           />
         ))}
       </div>
+      {selectedEntry && (
+        <EntryModal
+          entry={selectedEntry}
+          onClose={() => setSelectedEntry(undefined)}
+        />
+      )}
     </div>
   );
 }
