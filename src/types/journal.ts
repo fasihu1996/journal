@@ -9,3 +9,11 @@ export interface Entry {
   favorited: boolean;
   tags?: string[];
 }
+
+export const moodEmojis: Record<Mood, string> = {
+  great: "😄",
+  good: "🙂",
+  okay: "😑",
+  bad: "🙃",
+  terrible: "😟",
+} as const;
