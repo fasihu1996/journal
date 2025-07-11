@@ -23,7 +23,6 @@ export default function EntryModal({ entry, onClose }: EntryModalProps) {
           entry={entry}
           onToggleFavorite={() => {}}
           onClickEntry={() => {}}
-          onClose={handleBackdropClick}
           className="h-full w-full"
         />
       </div>
