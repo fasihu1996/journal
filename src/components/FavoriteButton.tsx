@@ -35,7 +35,7 @@ export function FavoriteButton({ favorited, onToggle }: FavoriteButtonProps) {
           favorited
             ? "fill-yellow-400 text-yellow-400"
             : "text-muted-foreground"
-        } ${animate ? "scale-130" : "scale-100"}`}
+        } ${animate ? "scale-125" : "scale-100"}`}
       />
     </Toggle>
   );
