@@ -17,3 +17,5 @@ export const moodEmojis: Record<Mood, string> = {
   bad: "🙃",
   terrible: "😟",
 } as const;
+
+export const maxPreviewLength = 250;

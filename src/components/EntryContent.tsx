@@ -1,4 +1,4 @@
-import { Entry, moodEmojis } from "@/types/journal";
+import { Entry, moodEmojis, maxPreviewLength } from "@/types/journal";
 import { FavoriteButton } from "./FavoriteButton";
 
 interface EntryContentProps {
@@ -25,7 +25,10 @@ export default function EntryContent({
     });
   };
 
-  const trimContent = (content: string, maxLength: number = 250) => {
+  const trimContent = (
+    content: string,
+    maxLength: number = maxPreviewLength,
+  ) => {
     if (content.length <= maxLength || isModal) return content;
     return content.substring(0, maxLength) + "...";
   };
@@ -66,7 +69,7 @@ export default function EntryContent({
             isModal ? "text-base leading-relaxed" : "line-clamp-4 flex-1"
           }`}
         >
-          {trimContent(entry.content, 250)}
+          {trimContent(entry.content, maxPreviewLength)}
         </p>
         <div className="text-muted-foreground mt-3 flex-shrink-0 text-sm">
           {formatDate(entry.createdAt)}
