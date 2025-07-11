@@ -1,4 +1,5 @@
 import "./globals.css";
+import { Metadata } from "next";
 import { Space_Grotesk } from "next/font/google";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import NavbarWithModal from "@/components/NavbarWithModal";
