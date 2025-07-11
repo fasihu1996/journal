@@ -12,7 +12,7 @@ After cloning the repository, you have two options. You can either use the scrip
 ### Fully manual setup
 
 1. After closing the repo, run `npm run install` to install the required packages.
-2. Run the command `echo 'DATABASE_URL="file:./dev.db"' > .env.local` to create a local environment file, which points the project to the database location. This database will automatically be created later.
+2. Run the command `echo 'DATABASE_URL="file:./dev.db"' > .env.local` to create a local environment file, which points the project to the database location. The database file itself will be created later automatically.
 3. Run `npx drizzle-kit generate` to create the database migrations based on the drizzle schema.
 4. Run `npx drizzle-kit migrate` to perform the migrations on the dev.db database file.
 5. Run `npm run dev` to start the development server.
@@ -31,9 +31,6 @@ After cloning the repository, you have two options. You can either use the scrip
    1. Highlighted entries are easily accessible, e.g. through a separate list or filters.
    2. Highlights can be dynamically set and removed by the user, so they are added or removed from the filter view
    3. Highlighted entries can be visually differenciated from normal entries
-
-### Work in progress:
-
 4. Entries only show 250 symbols of content.
    1. If the content is shorter than 250 symbols, the entire content is shown.
    2. For longer content, the user can show the full entry through an interaction.
