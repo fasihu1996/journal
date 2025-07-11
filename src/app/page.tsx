@@ -152,7 +152,7 @@ export default function Home() {
           </h1>
           <p className="text-muted-foreground">
             {displayedEntries.length}{" "}
-            {displayedEntries.length === 1 ? "entry" : "entries"}
+            {displayedEntries.length === 1 ? "entry loaded" : "entries loaded"}
           </p>
         </div>
         <div className="flex items-center space-x-2">
@@ -160,8 +160,9 @@ export default function Home() {
             id="favorites-only"
             checked={favoritesOnly}
             onCheckedChange={setFavoritesOnly}
+            className="cursor-pointer"
           />
-          <Label htmlFor="favorites-only" className="text-md">
+          <Label htmlFor="favorites-only" className="text-md cursor-pointer">
             Show favorites only
           </Label>
         </div>
@@ -181,6 +182,7 @@ export default function Home() {
         <EntryModal
           entry={selectedEntry}
           onClose={() => setSelectedEntry(undefined)}
+          onToggleFavorite={handleToggleFavorite}
         />
       )}
     </div>

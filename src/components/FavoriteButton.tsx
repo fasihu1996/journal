@@ -18,25 +18,28 @@ export function FavoriteButton({ favorited, onToggle }: FavoriteButtonProps) {
     }
   }, [animate]);
 
-  const handleToggle = (value: boolean) => {
+  const handleClick = (event: React.MouseEvent) => {
+    event.stopPropagation();
     setAnimate(true);
-    onToggle(value);
+    onToggle(!favorited);
   };
 
   return (
-    <Toggle
-      pressed={favorited}
-      onPressedChange={handleToggle}
-      variant="outline"
-      aria-label="Toggle favorite"
-    >
-      <Star
-        className={`h-4 w-4 ${
-          favorited
-            ? "fill-yellow-400 text-yellow-400"
-            : "text-muted-foreground"
-        } ${animate ? "scale-125" : "scale-100"}`}
-      />
-    </Toggle>
+    <div onClick={handleClick} className="cursor-pointer">
+      <Toggle
+        pressed={favorited}
+        onPressedChange={() => {}}
+        variant="outline"
+        aria-label="Toggle favorite"
+      >
+        <Star
+          className={`h-4 w-4 ${
+            favorited
+              ? "fill-yellow-400 text-yellow-400"
+              : "text-muted-foreground"
+          } ${animate ? "scale-125" : "scale-100"}`}
+        />
+      </Toggle>
+    </div>
   );
 }
