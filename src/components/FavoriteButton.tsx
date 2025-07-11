@@ -25,7 +25,7 @@ export function FavoriteButton({ favorited, onToggle }: FavoriteButtonProps) {
   };
 
   return (
-    <div onClick={handleClick}>
+    <div onClick={handleClick} className="cursor-pointer">
       <Toggle
         pressed={favorited}
         onPressedChange={() => {}}

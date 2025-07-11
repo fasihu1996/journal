@@ -20,7 +20,11 @@ function Navbar({ onNewEntryClick }: NavbarProps) {
           </Link>
         </div>
         <div className="ml-auto flex items-center justify-end space-x-4">
-          <Button variant="outline" onClick={onNewEntryClick}>
+          <Button
+            variant="outline"
+            onClick={onNewEntryClick}
+            className="cursor-pointer"
+          >
             New entry
           </Button>
           <ModeToggle />
