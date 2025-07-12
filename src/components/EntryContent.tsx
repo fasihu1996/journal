@@ -64,11 +64,7 @@ export default function EntryContent({
           isModal ? "space-y-4" : "flex flex-1 flex-col justify-between"
         }
       >
-        <p
-          className={`text-muted-foreground ${
-            isModal ? "text-base leading-relaxed" : "line-clamp-4 flex-1"
-          }`}
-        >
+        <p className={"text-muted-foreground text-base leading-relaxed"}>
           {trimContent(entry.content, maxPreviewLength)}
         </p>
         <div className="text-muted-foreground mt-3 flex-shrink-0 text-sm">
