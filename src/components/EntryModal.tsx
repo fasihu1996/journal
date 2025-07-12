@@ -32,7 +32,7 @@ export default function EntryModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
       onClick={handleBackdropClick}
     >
       <div className="max-h-[80vh] w-full max-w-2xl overflow-y-auto">
