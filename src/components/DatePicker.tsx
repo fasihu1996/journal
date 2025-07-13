@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { ChevronDownIcon } from "lucide-react";
+import { CalendarIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -32,7 +32,7 @@ export function DatePicker({
   );
   const [selectedTime, setSelectedTime] = React.useState<string>(
     time ||
-      new Date().toLocaleTimeString("en-US", {
+      new Date().toLocaleTimeString("de-DE", {
         hour12: false,
         hour: "2-digit",
         minute: "2-digit",
@@ -52,8 +52,8 @@ export function DatePicker({
   };
 
   return (
-    <div className="flex gap-4">
-      <div className="flex flex-col gap-3">
+    <div className="flex gap-2">
+      <div className="flex flex-col gap-2">
         <Label htmlFor="date-picker" className="px-1">
           Date
         </Label>
@@ -65,9 +65,9 @@ export function DatePicker({
               className="w-32 justify-between font-normal"
             >
               {selectedDate
-                ? selectedDate.toLocaleDateString()
-                : new Date().toLocaleDateString()}
-              <ChevronDownIcon />
+                ? selectedDate.toLocaleDateString("de-DE")
+                : new Date().toLocaleDateString("de-DE")}
+              <CalendarIcon />
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-auto overflow-hidden p-0" align="start">
@@ -83,7 +83,7 @@ export function DatePicker({
           </PopoverContent>
         </Popover>
       </div>
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-2">
         <Label htmlFor="time-picker" className="px-1">
           Time
         </Label>
