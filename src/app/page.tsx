@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import EntryModal from "@/components/EntryModal";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
   const [entries, setEntries] = useState<Entry[]>([]);
@@ -15,6 +16,7 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [favoritesOnly, setFavoritesOnly] = useState(false);
+  const [entriesShown, setEntriesShown] = useState(6);
 
   const loadEntries = async () => {
     try {
@@ -60,6 +62,19 @@ export default function Home() {
     ? entries.filter((entry) => entry.favorited)
     : entries;
 
+  const totalEntries = displayedEntries.length;
+
+  const visibleEntries = displayedEntries.slice(0, entriesShown);
+
+  const handleVisibleIncrease = (currDisplay: number) => {
+    if (currDisplay + 6 < totalEntries) {
+      setEntriesShown(currDisplay + 6);
+    } else {
+      setEntriesShown(totalEntries);
+    }
+    toast.success("Additional entries loaded");
+  };
+
   useEffect(() => {
     loadEntries();
 
@@ -75,18 +90,24 @@ export default function Home() {
   if (isLoading) {
     return (
       <div className="space-y-8">
-        <div>
-          <div className="bg-muted mb-2 h-9 w-64 animate-pulse rounded-md" />
-          <div className="bg-muted h-5 w-32 animate-pulse rounded-md" />
+        <div className="flex items-center justify-between">
+          <div>
+            <div className="bg-muted mb-2 h-9 w-64 animate-pulse rounded-md" />
+            <div className="bg-muted h-5 w-32 animate-pulse rounded-md" />
+          </div>
+          <div className="flex items-center space-x-2">
+            <div className="bg-muted h-5 w-8 animate-pulse rounded-full" />
+            <div className="bg-muted h-5 w-24 animate-pulse rounded-md" />
+          </div>
         </div>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {Array.from({ length: 6 }).map((_, i) => (
             <div
               key={i}
-              className="bg-card rounded-lg border p-6 shadow-sm transition-shadow hover:shadow-md"
+              className="bg-card flex h-80 flex-col rounded-lg border p-6 shadow-sm"
             >
-              <div className="mb-3">
+              <div className="mb-3 flex-shrink-0">
                 <div className="mb-1 flex items-center justify-between gap-4">
                   <div className="bg-muted h-6 w-2/3 animate-pulse rounded-md" />
                   <div className="bg-muted h-6 w-6 animate-pulse rounded-full" />
@@ -96,12 +117,14 @@ export default function Home() {
                   <div className="bg-muted h-4 w-16 animate-pulse rounded-md" />
                 </div>
               </div>
-              <div className="mb-4 space-y-2">
-                <div className="bg-muted h-4 w-full animate-pulse rounded-md" />
-                <div className="bg-muted h-4 w-5/6 animate-pulse rounded-md" />
-                <div className="bg-muted h-4 w-2/3 animate-pulse rounded-md" />
+              <div className="flex flex-1 flex-col justify-between">
+                <div className="space-y-2">
+                  <div className="bg-muted h-4 w-full animate-pulse rounded-md" />
+                  <div className="bg-muted h-4 w-5/6 animate-pulse rounded-md" />
+                  <div className="bg-muted h-4 w-2/3 animate-pulse rounded-md" />
+                </div>
+                <div className="bg-muted h-4 w-32 animate-pulse rounded-md" />
               </div>
-              <div className="bg-muted h-4 w-32 animate-pulse rounded-md" />
             </div>
           ))}
         </div>
@@ -135,8 +158,8 @@ export default function Home() {
         </p>
         <div className="bg-muted/50 rounded-lg p-8">
           <p className="text-muted-foreground">
-            No entries yet. Click &quot;New Entry&quot; in the navigation to
-            create your first journal entry!
+            No entries yet. Click &quot;New Entry&quot; to create your first
+            journal entry!
           </p>
         </div>
       </div>
@@ -150,10 +173,21 @@ export default function Home() {
           <h1 className="text-foreground mb-2 text-3xl font-bold">
             Your Journal Entries
           </h1>
-          <p className="text-muted-foreground">
-            {displayedEntries.length}{" "}
-            {displayedEntries.length === 1 ? "entry loaded" : "entries loaded"}
-          </p>
+          <div className="flex items-center gap-4">
+            <p className="text-muted-foreground">
+              {entriesShown} / {displayedEntries.length}{" "}
+              {displayedEntries.length === 1
+                ? "entry loaded"
+                : "entries loaded"}
+            </p>
+            <Button
+              variant="outline"
+              disabled={entriesShown === totalEntries}
+              onClick={handleVisibleIncrease}
+            >
+              Load more
+            </Button>
+          </div>
         </div>
         <div className="flex items-center space-x-2">
           <Switch
@@ -169,7 +203,7 @@ export default function Home() {
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {displayedEntries.map((entry) => (
+        {visibleEntries.map((entry) => (
           <EntryCard
             key={entry.id}
             entry={entry}
