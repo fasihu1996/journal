@@ -67,7 +67,7 @@ export default function Home() {
   const visibleEntries = displayedEntries.slice(0, entriesShown);
 
   const handleVisibleIncrease = (currDisplay: number) => {
-    if (currDisplay + 6 < totalEntries) {
+    if (currDisplay + 6 <= totalEntries) {
       setEntriesShown(currDisplay + 6);
     } else {
       setEntriesShown(totalEntries);
@@ -183,7 +183,8 @@ export default function Home() {
             <Button
               variant="outline"
               disabled={entriesShown === totalEntries}
-              onClick={handleVisibleIncrease}
+              onClick={(entriesShown) => handleVisibleIncrease(entriesShown)}
+              className="cursor-pointer"
             >
               Load more
             </Button>
