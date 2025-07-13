@@ -171,7 +171,7 @@ export default function EntryFormModal({
               onChange={(e) => setContent(e.target.value)}
               rows={6}
               className="border-border bg-background text-foreground focus:ring-ring w-full resize-none rounded-md border px-3 py-2 focus:ring-2 focus:outline-none"
-              placeholder="Write about your day, thoughts, or feelings..."
+              placeholder="Write about your day, thoughts, feelings or anything else..."
               required
             />
           </div>
