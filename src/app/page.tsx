@@ -174,12 +174,6 @@ export default function Home() {
             Your Journal Entries
           </h1>
           <div className="flex items-center gap-4">
-            <p className="text-muted-foreground">
-              {entriesShown} / {displayedEntries.length}{" "}
-              {displayedEntries.length === 1
-                ? "entry loaded"
-                : "entries loaded"}
-            </p>
             <Button
               variant="outline"
               disabled={entriesShown >= totalEntries}
@@ -188,6 +182,12 @@ export default function Home() {
             >
               Load more
             </Button>
+            <p className="text-muted-foreground">
+              {entriesShown} / {displayedEntries.length}{" "}
+              {displayedEntries.length === 1
+                ? "entry loaded"
+                : "entries loaded"}
+            </p>
           </div>
         </div>
         <div className="flex items-center space-x-2">
