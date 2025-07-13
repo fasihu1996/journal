@@ -182,8 +182,8 @@ export default function Home() {
             </p>
             <Button
               variant="outline"
-              disabled={entriesShown === totalEntries}
-              onClick={(entriesShown) => handleVisibleIncrease(entriesShown)}
+              disabled={entriesShown >= totalEntries}
+              onClick={() => handleVisibleIncrease(entriesShown)}
               className="cursor-pointer"
             >
               Load more
