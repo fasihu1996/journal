@@ -3,10 +3,12 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { DatePicker } from "@/components/DatePicker";
-import { Entry } from "@/types/journal";
+import { Entry, moodOptions } from "@/types/journal";
 import { entriesApi } from "@/lib/api";
 import { toast } from "sonner";
 import { FavoriteButton } from "@/components/FavoriteButton";
+import { Label } from "./ui/label";
+import { Input } from "./ui/input";
 
 interface EntryFormModalProps {
   isOpen: boolean;
@@ -27,7 +29,7 @@ export default function EntryFormModal({
     new Date(),
   );
   const [selectedTime, setSelectedTime] = useState<string>(
-    new Date().toLocaleTimeString("en-US", {
+    new Date().toLocaleTimeString("de-DE", {
       hour12: false,
       hour: "2-digit",
       minute: "2-digit",
@@ -75,7 +77,7 @@ export default function EntryFormModal({
       setFavorited(false);
       setSelectedDate(new Date());
       setSelectedTime(
-        new Date().toLocaleTimeString("en-US", {
+        new Date().toLocaleTimeString("de-DE", {
           hour12: false,
           hour: "2-digit",
           minute: "2-digit",
@@ -104,14 +106,6 @@ export default function EntryFormModal({
     }
   };
 
-  const moodOptions = [
-    { value: "great", label: "😁 Great", color: "text-green-600" },
-    { value: "good", label: "😊 Good", color: "text-green-500" },
-    { value: "okay", label: "😐 Okay", color: "text-yellow-500" },
-    { value: "bad", label: "😞 Bad", color: "text-orange-500" },
-    { value: "terrible", label: "😢 Terrible", color: "text-red-500" },
-  ] as const;
-
   return (
     <div
       className="bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-black p-4"
@@ -126,13 +120,13 @@ export default function EntryFormModal({
         </div>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label
+            <Label
               htmlFor="title"
               className="text-card-foreground mb-2 block text-sm font-medium"
             >
               Title
-            </label>
-            <input
+            </Label>
+            <Input
               id="title"
               type="text"
               value={title}
@@ -144,42 +138,48 @@ export default function EntryFormModal({
           </div>
 
           <div>
-            <label
+            <Label
               htmlFor="mood"
               className="text-card-foreground mb-2 block text-sm font-medium"
             >
               Mood
-            </label>
+            </Label>
             <select
               id="mood"
               value={mood}
               onChange={(e) => setMood(e.target.value as Entry["mood"])}
               className="border-border bg-background text-foreground focus:ring-ring inset-1 w-full rounded-md border px-3 py-2 focus:ring-2 focus:outline-none"
             >
-              {moodOptions.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
+              {Object.entries(moodOptions).map(([value, { emoji }]) => (
+                <option key={value} value={value}>
+                  {emoji} {value.charAt(0).toUpperCase() + value.slice(1)}
                 </option>
               ))}
             </select>
           </div>
 
           <div>
-            <label
+            <Label
               htmlFor="content"
               className="text-card-foreground mb-2 block text-sm font-medium"
             >
               Content
-            </label>
+            </Label>
             <textarea
               id="content"
               value={content}
               onChange={(e) => setContent(e.target.value)}
               rows={6}
               className="border-border bg-background text-foreground focus:ring-ring w-full resize-none rounded-md border px-3 py-2 focus:ring-2 focus:outline-none"
-              placeholder="Write about your day, thoughts, or feelings..."
+              placeholder="Write about your day, thoughts, feelings or anything else..."
               required
             />
+          </div>
+          <div className="">
+            <Label htmlFor="tags" className="mb-2">
+              Tags
+            </Label>
+            <Input id="tags" placeholder="Press Enter to save a tag" />
           </div>
           <div>
             <DatePicker

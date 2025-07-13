@@ -1,5 +1,6 @@
-import { Entry, moodEmojis, maxPreviewLength } from "@/types/journal";
+import { Entry, moodOptions, maxPreviewLength } from "@/types/journal";
 import { FavoriteButton } from "./FavoriteButton";
+import { Badge } from "@/components/ui/badge";
 
 interface EntryContentProps {
   entry: Entry;
@@ -16,7 +17,7 @@ export default function EntryContent({
 }: EntryContentProps) {
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString("en-DE", {
+    return date.toLocaleDateString("de-DE", {
       year: "numeric",
       month: "short",
       day: "numeric",
@@ -54,8 +55,12 @@ export default function EntryContent({
           />
         </div>
         <div className="mt-1 flex items-center gap-1">
-          <span className="text-lg">{moodEmojis[entry.mood]}</span>
-          <span className="text-sm font-medium capitalize">{entry.mood}</span>
+          <Badge
+            variant="default"
+            className={`${moodOptions[entry.mood].styling} text-white`}
+          >
+            {moodOptions[entry.mood].emoji} {entry.mood}
+          </Badge>
         </div>
       </div>
 
@@ -64,11 +69,7 @@ export default function EntryContent({
           isModal ? "space-y-4" : "flex flex-1 flex-col justify-between"
         }
       >
-        <p
-          className={`text-muted-foreground ${
-            isModal ? "text-base leading-relaxed" : "line-clamp-4 flex-1"
-          }`}
-        >
+        <p className={"text-muted-foreground text-base leading-relaxed"}>
           {trimContent(entry.content, maxPreviewLength)}
         </p>
         <div className="text-muted-foreground mt-3 flex-shrink-0 text-sm">
