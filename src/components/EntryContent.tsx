@@ -72,10 +72,19 @@ export default function EntryContent({
         <p className={"text-muted-foreground text-base leading-relaxed"}>
           {trimContent(entry.content, maxPreviewLength)}
         </p>
-        <div className="text-muted-foreground mt-3 flex-shrink-0 text-sm">
-          {formatDate(entry.createdAt)}
-        </div>
       </div>
+      <div className="text-muted-foreground mt-3 flex-shrink-0 text-sm">
+        {formatDate(entry.createdAt)}
+      </div>
+      {entry.tags && entry.tags.length > 0 && (
+        <div className="mt-2 flex flex-wrap gap-1">
+          {entry.tags.map((tag, index) => (
+            <Badge key={index} variant="outline" className="text-xs">
+              {tag}
+            </Badge>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

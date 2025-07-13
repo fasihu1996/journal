@@ -110,3 +110,18 @@ export const entryOperations = {
     return result.length > 0;
   },
 };
+
+export const tagOperations = {
+  async getAllTags(): Promise<string[]> {
+    const allEntries = await db.select({ tags: entries.tags }).from(entries);
+
+    const allTags = allEntries.flatMap((entry) => {
+      if (Array.isArray(entry.tags)) {
+        return entry.tags;
+      }
+      return [];
+    });
+    const uniqueTags = [...new Set(allTags)];
+    return uniqueTags;
+  },
+};
