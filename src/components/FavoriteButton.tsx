@@ -17,15 +17,16 @@ export function FavoriteButton({ favorited, onToggle }: FavoriteButtonProps) {
   };
 
   return (
-    <div onClick={handleClick} className="cursor-pointer">
+    <div onClick={handleClick}>
       <Toggle
         pressed={favorited}
         onPressedChange={() => {}}
         variant="outline"
         aria-label="Toggle favorite"
+        className="cursor-pointer"
       >
         <Star
-          className={`h-4 w-4 transition-all duration-300 ease-out ${
+          className={`h-4 w-4 transition-all duration-300 ease-in-out ${
             favorited
               ? "fill-yellow-400 text-yellow-400"
               : "text-muted-foreground fill-transparent"
