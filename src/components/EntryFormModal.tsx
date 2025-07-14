@@ -27,7 +27,7 @@ export default function EntryFormModal({
   const [mood, setMood] = useState<Entry["mood"]>("okay");
   const [favorited, setFavorited] = useState(false);
   const [availableTags, setAvailableTags] = useState<string[]>([]);
-  const [tags, setTags] = useState([]);
+  const [tags, setTags] = useState<string[]>([]);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(
     new Date(),
   );
