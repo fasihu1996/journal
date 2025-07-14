@@ -1,14 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { DatePicker } from "@/components/DatePicker";
 import { Entry, moodOptions } from "@/types/journal";
-import { entriesApi } from "@/lib/api";
+import { entriesApi, tagsApi } from "@/lib/api";
 import { toast } from "sonner";
 import { FavoriteButton } from "@/components/FavoriteButton";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
+import { TagPicker } from "./TagPicker";
 
 interface EntryFormModalProps {
   isOpen: boolean;
@@ -25,6 +26,8 @@ export default function EntryFormModal({
   const [content, setContent] = useState("");
   const [mood, setMood] = useState<Entry["mood"]>("okay");
   const [favorited, setFavorited] = useState(false);
+  const [availableTags, setAvailableTags] = useState<string[]>([]);
+  const [tags, setTags] = useState<string[]>([]);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(
     new Date(),
   );
@@ -37,6 +40,21 @@ export default function EntryFormModal({
     }),
   );
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const loadTags = async () => {
+    try {
+      const fetchedTags = await tagsApi.getTags();
+      setAvailableTags(fetchedTags);
+    } catch (_error) {
+      toast.error("Failed to load tags.");
+    }
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      loadTags();
+    }
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
@@ -67,7 +85,7 @@ export default function EntryFormModal({
         content: content.trim(),
         mood: mood || undefined,
         favorited: favorited,
-        tags: [],
+        tags: tags,
         createdAt: entryDateTime.toISOString(),
       });
 
@@ -75,6 +93,7 @@ export default function EntryFormModal({
       setContent("");
       setMood("okay");
       setFavorited(false);
+      setTags([]);
       setSelectedDate(new Date());
       setSelectedTime(
         new Date().toLocaleTimeString("de-DE", {
@@ -179,7 +198,11 @@ export default function EntryFormModal({
             <Label htmlFor="tags" className="mb-2">
               Tags
             </Label>
-            <Input id="tags" placeholder="Press Enter to save a tag" />
+            <TagPicker
+              options={availableTags}
+              picked={tags}
+              onChange={setTags}
+            />
           </div>
           <div>
             <DatePicker

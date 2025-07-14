@@ -6,7 +6,7 @@ export const entriesApi = {
   async getEntries(): Promise<Entry[]> {
     const response = await fetch(`${API_BASE}/entries`);
     if (!response.ok) {
-      throw new Error("Failed to fetch entries");
+      throw new Error("Failed to fetch entries.");
     }
     return response.json();
   },
@@ -21,7 +21,7 @@ export const entriesApi = {
     });
 
     if (!response.ok) {
-      throw new Error("Failed to create entry");
+      throw new Error("Failed to create entry.");
     }
 
     return response.json();
@@ -40,9 +40,19 @@ export const entriesApi = {
     });
 
     if (!response.ok) {
-      throw new Error("Failed to update entry");
+      throw new Error("Failed to update entry.");
     }
 
+    return response.json();
+  },
+};
+
+export const tagsApi = {
+  async getTags(): Promise<string[]> {
+    const response = await fetch(`${API_BASE}/tags`);
+    if (!response.ok) {
+      throw new Error("Failed to fetch tags.");
+    }
     return response.json();
   },
 };

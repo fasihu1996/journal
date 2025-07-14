@@ -174,14 +174,6 @@ export default function Home() {
             Your Journal Entries
           </h1>
           <div className="flex items-center gap-4">
-            <Button
-              variant="outline"
-              disabled={entriesShown >= totalEntries}
-              onClick={() => handleVisibleIncrease(entriesShown)}
-              className="cursor-pointer"
-            >
-              Load more
-            </Button>
             <p className="text-muted-foreground">
               {entriesShown} / {displayedEntries.length}{" "}
               {displayedEntries.length === 1
@@ -220,6 +212,16 @@ export default function Home() {
           onToggleFavorite={handleToggleFavorite}
         />
       )}
+      <div className="flex items-center justify-center gap-4">
+        <Button
+          variant="outline"
+          disabled={entriesShown >= totalEntries}
+          onClick={() => handleVisibleIncrease(entriesShown)}
+          className="cursor-pointer"
+        >
+          Load more
+        </Button>
+      </div>
     </div>
   );
 }
