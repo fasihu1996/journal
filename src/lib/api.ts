@@ -46,3 +46,13 @@ export const entriesApi = {
     return response.json();
   },
 };
+
+export const tagsApi = {
+  async getTags(): Promise<[]> {
+    const response = await fetch(`${API_BASE}/tags`);
+    if (!response.ok) {
+      throw new Error("Failed to fetch entries");
+    }
+    return response.json();
+  },
+};
