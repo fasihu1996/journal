@@ -39,9 +39,6 @@ After cloning the repository, you have two options. You can either use the scrip
 
 1. Journal entries are saved persistently either in a lcoal sqlite database or in a turso database instance. Those entries are redisplayed on application launch.
 2. Users can set an alternative creation date for the entries, but only for past dates.
-
-### Work in progress:
-
 3. New entries can be marked with tags
    1. Tags are displayed for each entry
    2. Previous tags are suggested while typing
