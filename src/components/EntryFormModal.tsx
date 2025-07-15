@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { DatePicker } from "@/components/DatePicker";
-import { Entry, moodOptions } from "@/types/journal";
+import { Entry, Mood, moodOptions } from "@/types/journal";
 import { entriesApi, tagsApi } from "@/lib/api";
 import { toast } from "sonner";
 import { FavoriteButton } from "@/components/FavoriteButton";
@@ -24,7 +24,7 @@ export default function EntryFormModal({
 }: EntryFormModalProps) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [mood, setMood] = useState<Entry["mood"]>("okay");
+  const [mood, setMood] = useState<Mood>("okay");
   const [favorited, setFavorited] = useState(false);
   const [availableTags, setAvailableTags] = useState<string[]>([]);
   const [tags, setTags] = useState<string[]>([]);
