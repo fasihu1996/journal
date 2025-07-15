@@ -219,7 +219,7 @@ export default function Home() {
           onClick={() => handleVisibleIncrease(entriesShown)}
           className="cursor-pointer"
         >
-          Load more
+          {entriesShown >= totalEntries ? "All entries loaded" : "Load more"}
         </Button>
       </div>
     </div>
