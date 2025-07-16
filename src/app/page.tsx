@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label";
 import EntryModal from "@/components/EntryModal";
 import { Button } from "@/components/ui/button";
 
-export default function Home() {
+export default function Page() {
   const [entries, setEntries] = useState<Entry[]>([]);
   const [selectedEntry, setSelectedEntry] = useState<Entry>();
   const [isLoading, setIsLoading] = useState(true);
