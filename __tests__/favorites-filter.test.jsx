@@ -12,11 +12,11 @@ jest.mock("@/lib/api", () => ({
 }));
 
 describe("Optional 1: show favorites only", () => {
-  it("toggles “show favorites only” and updates list", async () => {
+  it("toggles “show favorites only” and updates entries", async () => {
     entriesApi.getEntries.mockResolvedValue([
       {
         id: 1,
-        title: "A",
+        title: "Entry 1",
         content: "",
         createdAt: new Date().toISOString(),
         favorited: true,
@@ -25,7 +25,7 @@ describe("Optional 1: show favorites only", () => {
       },
       {
         id: 2,
-        title: "B",
+        title: "Entry 2",
         content: "",
         createdAt: new Date().toISOString(),
         favorited: false,
@@ -36,9 +36,11 @@ describe("Optional 1: show favorites only", () => {
 
     render(<Home />);
 
-    await waitFor(() => expect(screen.getByText("A")).toBeInTheDocument());
+    await waitFor(() =>
+      expect(screen.getByText("Entry 1")).toBeInTheDocument(),
+    );
 
-    expect(screen.getByText("B")).toBeInTheDocument();
+    expect(screen.getByText("Entry 2")).toBeInTheDocument();
 
     const toggle = screen.getByRole("switch", {
       name: /show favorites only/i,
