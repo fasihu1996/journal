@@ -28,29 +28,3 @@ export async function PUT(
     );
   }
 }
-
-export async function DELETE(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
-) {
-  try {
-    const { id: idString } = await params;
-    const id = parseInt(idString);
-    if (isNaN(id)) {
-      return NextResponse.json({ error: "Invalid entry ID" }, { status: 400 });
-    }
-
-    const success = await entryOperations.deleteEntry(id);
-
-    if (!success) {
-      return NextResponse.json({ error: "Entry not found" }, { status: 404 });
-    }
-
-    return NextResponse.json({ success: true });
-  } catch (_error) {
-    return NextResponse.json(
-      { error: "Failed to delete entry" },
-      { status: 500 },
-    );
-  }
-}
