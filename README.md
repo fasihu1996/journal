@@ -1,5 +1,7 @@
 # Moodjournal
 
+[![Run Tests](https://github.com/fasihu1996/journal/actions/workflows/main.yml/badge.svg)](https://github.com/fasihu1996/journal/actions/workflows/main.yml)
+
 ## Instructions for running locally
 
 After cloning the repository, you have two options. You can either use the script I have written to have the project running or manually perform the steps.
