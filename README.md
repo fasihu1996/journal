@@ -1,6 +1,4 @@
-# Moodjournal
-
-[![Run Tests](https://github.com/fasihu1996/journal/actions/workflows/main.yml/badge.svg)](https://github.com/fasihu1996/journal/actions/workflows/main.yml)
+# Moodjournal <img alt="Run Tests" src="https://github.com/fasihu1996/journal/actions/workflows/main.yml/badge.svg" align="right">
 
 ## Instructions for running locally
 
