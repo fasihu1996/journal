@@ -27,3 +27,34 @@ export const mockEntries = [
     tags: [],
   },
 ];
+
+export const favoriteEntries = [
+  {
+    id: 1,
+    title: "Favorited entry",
+    content: "",
+    createdAt: new Date().toISOString(),
+    favorited: true,
+    mood: "good",
+    tags: [],
+  },
+  {
+    id: 2,
+    title: "Boring entry",
+    content: "",
+    createdAt: new Date().toISOString(),
+    favorited: false,
+    mood: "bad",
+    tags: [],
+  },
+];
+
+export const entryTemplate = (content: string) => ({
+  id: 1,
+  title: "Test",
+  content: content,
+  createdAt: new Date().toISOString(),
+  favorited: false,
+  mood: "okay",
+  tags: [],
+});
