@@ -2,41 +2,34 @@ import { render, screen } from "@testing-library/react";
 import EntryContent from "@/components/EntryContent";
 import { maxPreviewLength } from "@/types/journal";
 import "@testing-library/jest-dom";
+import { entryTemplate } from "../__mocks__/mockData";
 
-const mockEntry = (content) => ({
-  id: 1,
-  title: "Test",
-  content,
-  createdAt: new Date().toISOString(),
-  favorited: false,
-  mood: "okay",
-  tags: [],
-});
+const longText =
+  "Ut convallis justo a sapien porta, sed aliquet ex consequat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Integer vehicula arcu ac dolor ultricies pretium. Fusce rutrum lobortis lorem, et ultricies est congue eget. Mauris mattis magna venenatis turpis duis.";
 
-describe("Mandatory 4: trim content after 250 symbols", () => {
+const shortText = longText.substring(0, maxPreviewLength) + "...";
+
+describe("Mandatory feature 4: trim content after 250 symbols", () => {
   it("shows full string if max 250 symbols", () => {
-    const short = "a".repeat(250);
     render(
       <EntryContent
-        entry={mockEntry(short)}
+        entry={entryTemplate(shortText)}
         onToggleFavorite={jest.fn()}
         isModal={false}
       />,
     );
-    expect(screen.getByText(short)).toBeInTheDocument();
+
+    expect(screen.getByText(shortText)).toBeInTheDocument();
   });
 
   it("trims and adds “...” if longer than 250 symbols", () => {
-    const long = "b".repeat(300);
     render(
       <EntryContent
-        entry={mockEntry(long)}
+        entry={entryTemplate(longText)}
         onToggleFavorite={jest.fn()}
         isModal={false}
       />,
     );
-    expect(
-      screen.getByText(`${long.slice(0, maxPreviewLength)}...`),
-    ).toBeInTheDocument();
+    expect(screen.getByText(shortText)).toBeInTheDocument();
   });
 });

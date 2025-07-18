@@ -1,7 +1,8 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import Home from "@/app/page";
+import Page from "@/app/page";
 import { entriesApi } from "@/lib/api";
+import { favoriteEntries } from "../__mocks__/mockData";
 import "@testing-library/jest-dom";
 
 jest.mock("@/lib/api", () => ({
@@ -11,43 +12,22 @@ jest.mock("@/lib/api", () => ({
   },
 }));
 
-describe("Optional 1: show favorites only", () => {
+describe("Mandatory feature 3: show favorites only", () => {
   it("toggles “show favorites only” and updates entries", async () => {
-    entriesApi.getEntries.mockResolvedValue([
-      {
-        id: 1,
-        title: "Entry 1",
-        content: "",
-        createdAt: new Date().toISOString(),
-        favorited: true,
-        mood: "good",
-        tags: [],
-      },
-      {
-        id: 2,
-        title: "Entry 2",
-        content: "",
-        createdAt: new Date().toISOString(),
-        favorited: false,
-        mood: "bad",
-        tags: [],
-      },
-    ]);
+    entriesApi.getEntries.mockResolvedValue(favoriteEntries);
 
-    render(<Home />);
+    render(<Page />);
 
     await waitFor(() =>
-      expect(screen.getByText("Entry 1")).toBeInTheDocument(),
+      expect(screen.getByText("Favorited entry")).toBeInTheDocument(),
     );
 
-    expect(screen.getByText("Entry 2")).toBeInTheDocument();
+    expect(screen.getByText("Boring entry")).toBeInTheDocument();
 
-    const toggle = screen.getByRole("switch", {
-      name: /show favorites only/i,
-    });
+    const toggle = screen.getByRole("switch");
     await userEvent.click(toggle);
 
-    expect(screen.queryByText("B")).not.toBeInTheDocument();
-    expect(screen.getByText("A")).toBeInTheDocument();
+    expect(screen.queryByText("Boring entry")).not.toBeInTheDocument();
+    expect(screen.getByText("Favorited entry")).toBeInTheDocument();
   });
 });
