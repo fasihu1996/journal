@@ -27,7 +27,7 @@ export default function RootLayout({
         >
           <NavbarWithModal />
           <main className="container mx-auto px-4 py-8">{children}</main>
-          <Toaster position="top-right" richColors />
+          <Toaster position="top-right" richColors closeButton />
         </ThemeProvider>
       </body>
     </html>
