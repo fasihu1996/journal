@@ -3,7 +3,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import Page from "@/app/page";
 import { entriesApi } from "@/lib/api";
 import "@testing-library/jest-dom";
-import mockData from "../__mocks__/mockData.ts";
+import { mockEntries } from "../__mocks__/mockData.ts";
 
 jest.mock("@/lib/api", () => ({
   entriesApi: {
