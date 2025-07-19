@@ -2,15 +2,15 @@
 
 ## Modular overview
 
-<img alt="modular overview" src="https://github.com/fasihu1996/journal/blob/main/public/modules.svg" align="center">
+![Modular overview](public/modules.svg)
 
 ## Instructions for running locally
 
-After cloning the repository, you have two options. You can either use the script I have written to have the project running or manually perform the steps.
+After cloning the repository, you have two options. You can either use the script I have written to have the project up and running with a single command or manually perform the steps.
 
 ### Fully automated setup
 
-1. `npm run dev:first` will run a combination of custom scripts, which installs all requirements, creates the local environment file, creates the database migration file, performs the migrations to create the tables in the database and runs the dev server. This is only required for the very first execution after cloning. All those steps can also be performed manually, but using this script is more convenient.
+1. `npm run dev:first` will run a combination of custom scripts, which install all requirements, create the local environment file, create the database migration file, perform the migrations to create the tables in the database and run the dev server. This is only required for the very first execution after cloning.
 2. Subsequent runs can simply use `npm run dev` instead. While `npm run dev:first` will also work, the additional steps are no longer required.
 
 ### Fully manual setup
@@ -52,16 +52,22 @@ After cloning the repository, you have two options. You can either use the scrip
 
 ## Tests
 
-The project contains three Jest tests, which can be run by executing `npm run test` after setting up the project.
+The project contains 3 Jest test suites with 8 tests in total, which can be run by executing `npm run test` after setting up the project.
 
-### Mandatory feature 1: entries-list.test.jsx
+### Mandatory feature 1: Display all entries
 
-This is an unit test for the display of entries. It mocks the API and serves the entries already sorted chronologically. After the page has finished loading, the headings of the three entries should be in the document.
+[Related test file: entries-list.test.jsx](__tests__/entries-list.test.jsx)
 
-### Mandatory feature 3: favorites-filter.test.jsx
+This is an unit test for the display of entries. It mocks the API and serves the entries already sorted chronologically. After the page has been rendered, 3 individual tests check, whether the title, content, and timestamp are present for each entry.
 
-This is an integration test, focusing on the functionality of filtering for favorites in the page. It initially renders the page, then simulates a user event by clicking on the favorites switch, then checking if only the favorites have remained on the page.
+### Mandatory feature 3: Favorites
 
-### Mandatory feature 4: entry-preview.test.jsx
+[Related test file: favorites-filter.test.jsx](__tests__/favorites-filter.test.jsx)
 
-This is an unit test for the EntryContent component, which is responsible for ensuring, that only 250 characters of the content are displayed on the regular view. I have generated a lorem ipsum text with a length of 300 bytes, so the test ensures that short strings are fully displayed and longer strings are truncated and concatenated with "...".
+This is an integration test, focusing on the functionality of the favorites functions and the display in the page. It initially renders the page, then simulates a user event by clicking on the favorites switch, then checking if only the favorites have remained on the page. The second test in this suite toggles the favorite status of an entry by performing a click on the button, then toggles the favorites switch to ensure, that both favorited entries are now shown on the page.
+
+### Mandatory feature 4: Content preview
+
+[Related test file: entry-preview.test.jsx](__tests__/entry-preview.test.jsx)
+
+This is an unit test for the EntryContent component, which is responsible for ensuring, that only 250 characters of the content are displayed on the regular view. I have generated a lorem ipsum text with a length of 300 bytes, so the test ensures that short strings are fully displayed and longer strings are truncated and concatenated with "...". Finally, if the EntryContent is being shown in a modal, which is the full expanded view, the long text should also be displayed fully.
