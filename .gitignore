@@ -3,6 +3,7 @@
 # custom additions
 dev.db
 /.vscode
+*.excalidraw
 
 # dependencies
 /node_modules
