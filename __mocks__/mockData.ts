@@ -1,6 +1,6 @@
 export const mockEntries = [
   {
-    id: 2,
+    id: 1,
     title: "Newest Entry",
     content: "Newest Content",
     mood: "great",
@@ -9,7 +9,7 @@ export const mockEntries = [
     tags: [],
   },
   {
-    id: 1,
+    id: 2,
     title: "Middle Entry",
     content: "Middle Content",
     mood: "okay",
