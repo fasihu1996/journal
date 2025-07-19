@@ -23,6 +23,7 @@ export default function Page() {
       setError(null);
       const fetchedEntries = await entriesApi.getEntries();
       setEntries(fetchedEntries);
+      setEntriesShown(Math.min(6, fetchedEntries?.length || 0));
     } catch (_error) {
       setError("Failed to load entries");
     } finally {
@@ -86,6 +87,10 @@ export default function Page() {
     return () =>
       window.removeEventListener("entriesUpdated", handleEntriesUpdated);
   }, []);
+
+  useEffect(() => {
+    setEntriesShown(Math.min(6, displayedEntries.length));
+  }, [favoritesOnly, displayedEntries.length]);
 
   if (isLoading) {
     return (
@@ -158,7 +163,7 @@ export default function Page() {
         </p>
         <div className="bg-muted/50 rounded-lg p-8">
           <p className="text-muted-foreground">
-            No entries yet. Click &quot;New Entry&quot; to create your first
+            No entries yet. Click &quot;New entry&quot; to create your first
             journal entry!
           </p>
         </div>
