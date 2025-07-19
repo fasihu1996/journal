@@ -33,4 +33,15 @@ describe("Mandatory feature 4: trim content after 250 symbols", () => {
     );
     expect(screen.getByText(shortText)).toBeInTheDocument();
   });
+
+  it("shows the full content in the modal", () => {
+    render(
+      <EntryContent
+        entry={entryTemplate(longText)}
+        onToggleFavorite={jest.fn()}
+        isModal={true}
+      />,
+    );
+    expect(screen.getByText(longText)).toBeInTheDocument();
+  });
 });
