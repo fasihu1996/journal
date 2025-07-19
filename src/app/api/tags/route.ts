@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { tagOperations } from "@/lib/storage";
 
-export async function GET() {
+export async function GET(): Promise<NextResponse> {
   try {
     const tags = await tagOperations.getAllTags();
     return NextResponse.json(tags);
