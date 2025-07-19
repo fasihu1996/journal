@@ -1,5 +1,9 @@
 # Moodjournal <img alt="Run Tests" src="https://github.com/fasihu1996/journal/actions/workflows/main.yml/badge.svg" align="right">
 
+## Modular overview
+
+<img alt="modular overview" src="https://github.com/fasihu1996/journal/blob/main/public/modules.svg" align="center">
+
 ## Instructions for running locally
 
 After cloning the repository, you have two options. You can either use the script I have written to have the project running or manually perform the steps.
@@ -11,8 +15,8 @@ After cloning the repository, you have two options. You can either use the scrip
 
 ### Fully manual setup
 
-1. After closing the repo, run `npm run install` to install the required packages.
-2. Run the command `echo 'DATABASE_URL="file:./dev.db"' > .env.local` to create a local environment file, which points the project to the database location. The database file itself will be created later automatically.
+1. Run `npm run install` in the project directory to install the required packages.
+2. Run the command `echo 'DATABASE_URL=file:./dev.db' > .env.local` to create a local environment file, which points the project to the database location. The database file itself will be created later automatically.
 3. Run `npx drizzle-kit generate` to create the database migrations based on the drizzle schema.
 4. Run `npx drizzle-kit migrate` to perform the migrations on the dev.db database file.
 5. Run `npm run dev` to start the development server.
@@ -47,3 +51,17 @@ After cloning the repository, you have two options. You can either use the scrip
    1. The chronological order of the entries remains
 
 ## Tests
+
+The project contains three Jest tests, which can be run by executing `npm run test` after setting up the project.
+
+### Mandatory feature 1: entries-list.test.jsx
+
+This is an unit test for the display of entries. It mocks the API and serves the entries already sorted chronologically. After the page has finished loading, the headings of the three entries should be in the document.
+
+### Mandatory feature 3: favorites-filter.test.jsx
+
+This is an integration test, focusing on the functionality of filtering for favorites in the page. It initially renders the page, then simulates a user event by clicking on the favorites switch, then checking if only the favorites have remained on the page.
+
+### Mandatory feature 4: entry-preview.test.jsx
+
+This is an unit test for the EntryContent component, which is responsible for ensuring, that only 250 characters of the content are displayed on the regular view. I have generated a lorem ipsum text with a length of 300 bytes, so the test ensures that short strings are fully displayed and longer strings are truncated and concatenated with "...".
