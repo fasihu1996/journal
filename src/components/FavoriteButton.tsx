@@ -1,18 +1,13 @@
 import { Star } from "lucide-react";
 import { Toggle } from "@/components/ui/toggle";
-import { useState } from "react";
 
 interface FavoriteButtonProps {
   favorited: boolean;
   onToggle: (favorited: boolean) => void;
 }
 export function FavoriteButton({ favorited, onToggle }: FavoriteButtonProps) {
-  const [animating, setAnimating] = useState(false);
-
   const handleClick = (event: React.MouseEvent) => {
     event.stopPropagation();
-    setAnimating(true);
-    setTimeout(() => setAnimating(false), 100);
     onToggle(!favorited);
   };
 
@@ -20,7 +15,6 @@ export function FavoriteButton({ favorited, onToggle }: FavoriteButtonProps) {
     <div onClick={handleClick}>
       <Toggle
         pressed={favorited}
-        onPressedChange={() => {}}
         variant="outline"
         aria-label="Toggle favorite"
         className="cursor-pointer"
@@ -30,7 +24,7 @@ export function FavoriteButton({ favorited, onToggle }: FavoriteButtonProps) {
             favorited
               ? "fill-yellow-400 text-yellow-400"
               : "text-muted-foreground fill-transparent"
-          } ${animating ? "brightness-110" : ""}`}
+          }`}
         />
       </Toggle>
     </div>
