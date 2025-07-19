@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { entryOperations } from "@/lib/storage";
 
-export async function POST(request: NextRequest) {
+export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
     const { title, content, mood, favorited, tags, createdAt } =
       await request.json();
@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function GET() {
+export async function GET(): Promise<NextResponse> {
   try {
     const entries = await entryOperations.getAllEntries();
     return NextResponse.json(entries);
