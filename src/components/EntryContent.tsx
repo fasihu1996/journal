@@ -66,11 +66,17 @@ export default function EntryContent({
           isModal ? "space-y-4" : "flex flex-1 flex-col justify-between"
         }
       >
-        <p className={"text-muted-foreground text-base leading-relaxed"}>
+        <p
+          className={"text-muted-foreground text-base leading-relaxed"}
+          aria-label="content"
+        >
           {trimContent(entry.content)}
         </p>
       </div>
-      <div className="text-muted-foreground mt-3 flex-shrink-0 text-sm">
+      <div
+        className="text-muted-foreground mt-3 flex-shrink-0 text-sm"
+        aria-label="datetime"
+      >
         {formatDate(entry.createdAt)}
       </div>
       {entry.tags && entry.tags.length > 0 && (
