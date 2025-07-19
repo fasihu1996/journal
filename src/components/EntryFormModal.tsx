@@ -28,9 +28,7 @@ export default function EntryFormModal({
   const [favorited, setFavorited] = useState(false);
   const [availableTags, setAvailableTags] = useState<string[]>([]);
   const [tags, setTags] = useState<string[]>([]);
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(
-    new Date(),
-  );
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [selectedTime, setSelectedTime] = useState<string>(
     new Date().toLocaleTimeString("de-DE", {
       hour12: false,
@@ -52,6 +50,14 @@ export default function EntryFormModal({
 
   useEffect(() => {
     if (isOpen) {
+      setSelectedTime(
+        new Date().toLocaleTimeString("de-DE", {
+          hour12: false,
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        }),
+      );
       loadTags();
     }
   }, [isOpen]);
@@ -206,8 +212,6 @@ export default function EntryFormModal({
           </div>
           <div>
             <DatePicker
-              date={selectedDate}
-              time={selectedTime}
               onDateChange={setSelectedDate}
               onTimeChange={setSelectedTime}
             />
