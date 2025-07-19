@@ -7,7 +7,7 @@ export interface Entry {
   mood: Mood;
   createdAt: string;
   favorited: boolean;
-  tags?: string[];
+  tags: string[];
 }
 
 export const moodOptions: Record<Mood, { emoji: string; styling: string }> = {
