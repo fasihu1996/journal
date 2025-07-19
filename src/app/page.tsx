@@ -31,7 +31,7 @@ export default function Page() {
     }
   };
 
-  const handleEntryClick = async (entryId: number) => {
+  const handleEntryClick = (entryId: number) => {
     const entry = entries.find((e) => e.id === entryId);
     if (entry) setSelectedEntry(entry);
   };
@@ -142,12 +142,13 @@ export default function Page() {
       <div className="py-12 text-center">
         <h1 className="text-foreground mb-4 text-3xl font-bold">Error</h1>
         <p className="mb-4 text-red-500">{error}</p>
-        <button
+        <Button
           onClick={loadEntries}
-          className="bg-primary text-primary-foreground rounded px-4 py-2"
+          variant="destructive"
+          className="cursor-pointer"
         >
           Try Again
-        </button>
+        </Button>
       </div>
     );
   }
