@@ -23,7 +23,7 @@ export default function EntryCard({
   return (
     <div
       onClick={() => onClickEntry(entry.id)}
-      className={`cursor-pointer rounded-lg transition-all duration-100 hover:scale-[1.02] hover:shadow-lg ${className}`}
+      className={`cursor-pointer rounded-lg transition-all duration-100 hover:scale-[1.02] hover:shadow-lg hover:shadow-black/10 dark:hover:shadow-white/10 ${className}`}
     >
       <EntryContent
         entry={entry}
