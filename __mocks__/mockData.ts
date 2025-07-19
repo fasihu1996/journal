@@ -1,20 +1,20 @@
 export const mockEntries = [
   {
-    id: 2,
+    id: 1,
     title: "Newest Entry",
     content: "Newest Content",
     mood: "great",
     favorited: true,
-    createdAt: "2025-07-16T13:35:27.075Z",
+    createdAt: "2025-07-16T13:35:27.075+02:00",
     tags: [],
   },
   {
-    id: 1,
+    id: 2,
     title: "Middle Entry",
     content: "Middle Content",
     mood: "okay",
     favorited: false,
-    createdAt: "2025-07-16T13:17:17.485Z",
+    createdAt: "2025-07-16T13:17:17.485+02:00",
     tags: ["tag1", "tag2", "tag3"],
   },
   {
@@ -23,7 +23,7 @@ export const mockEntries = [
     content: "Oldest Content",
     mood: "terrible",
     favorited: true,
-    createdAt: "2025-07-14T13:35:27.075Z",
+    createdAt: "2025-07-14T13:35:27.075+02:00",
     tags: [],
   },
 ];

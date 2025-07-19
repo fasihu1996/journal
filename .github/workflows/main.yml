@@ -23,3 +23,5 @@ jobs:
 
       - name: Run Jest tests
         run: npm test
+        env:
+          TZ: Europe/Berlin
