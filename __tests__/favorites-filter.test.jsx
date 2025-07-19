@@ -1,3 +1,4 @@
+// integration test for page and favorites
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import Page from "@/app/page";

@@ -24,7 +24,7 @@ export const entryOperations = {
       mood: entry.mood as Mood,
       createdAt: entry.createdAt.toISOString(),
       favorited: entry.favorited,
-      tags: entry.tags as string[] | undefined,
+      tags: entry.tags as string[],
     };
   },
 
@@ -41,7 +41,7 @@ export const entryOperations = {
       mood: entry.mood as Mood,
       createdAt: entry.createdAt.toISOString(),
       favorited: entry.favorited,
-      tags: entry.tags as string[] | undefined,
+      tags: entry.tags as string[],
     }));
   },
 
@@ -57,7 +57,7 @@ export const entryOperations = {
       mood: entry.mood as Mood,
       createdAt: entry.createdAt.toISOString(),
       favorited: entry.favorited,
-      tags: entry.tags as string[] | undefined,
+      tags: entry.tags as string[],
     };
   },
 
@@ -97,7 +97,7 @@ export const entryOperations = {
       mood: updatedEntry.mood as Mood,
       createdAt: updatedEntry.createdAt.toISOString(),
       favorited: updatedEntry.favorited,
-      tags: updatedEntry.tags as string[] | undefined,
+      tags: updatedEntry.tags as string[],
     };
   },
 

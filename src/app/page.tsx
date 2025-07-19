@@ -23,6 +23,7 @@ export default function Page() {
       setError(null);
       const fetchedEntries = await entriesApi.getEntries();
       setEntries(fetchedEntries);
+      setEntriesShown(Math.min(6, fetchedEntries?.length || 0));
     } catch (_error) {
       setError("Failed to load entries");
     } finally {
@@ -30,7 +31,7 @@ export default function Page() {
     }
   };
 
-  const handleEntryClick = async (entryId: number) => {
+  const handleEntryClick = (entryId: number) => {
     const entry = entries.find((e) => e.id === entryId);
     if (entry) setSelectedEntry(entry);
   };
@@ -87,6 +88,10 @@ export default function Page() {
       window.removeEventListener("entriesUpdated", handleEntriesUpdated);
   }, []);
 
+  useEffect(() => {
+    setEntriesShown(Math.min(6, displayedEntries.length));
+  }, [favoritesOnly, displayedEntries.length]);
+
   if (isLoading) {
     return (
       <div className="space-y-8">
@@ -137,12 +142,13 @@ export default function Page() {
       <div className="py-12 text-center">
         <h1 className="text-foreground mb-4 text-3xl font-bold">Error</h1>
         <p className="mb-4 text-red-500">{error}</p>
-        <button
+        <Button
           onClick={loadEntries}
-          className="bg-primary text-primary-foreground rounded px-4 py-2"
+          variant="destructive"
+          className="cursor-pointer"
         >
           Try Again
-        </button>
+        </Button>
       </div>
     );
   }
@@ -158,7 +164,7 @@ export default function Page() {
         </p>
         <div className="bg-muted/50 rounded-lg p-8">
           <p className="text-muted-foreground">
-            No entries yet. Click &quot;New Entry&quot; to create your first
+            No entries yet. Click &quot;New entry&quot; to create your first
             journal entry!
           </p>
         </div>

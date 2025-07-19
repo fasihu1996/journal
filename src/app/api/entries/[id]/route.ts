@@ -4,7 +4,7 @@ import { entryOperations } from "@/lib/storage";
 export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> },
-) {
+): Promise<NextResponse> {
   try {
     const { id: idString } = await params;
     const id = parseInt(idString);

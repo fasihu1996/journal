@@ -10,6 +10,7 @@ export default function NotFound() {
         width={500}
         height={500}
         alt="not found gif"
+        unoptimized
       />
       <p className="text-foreground mb-8 text-4xl font-bold">
         The page you are looking for does not exist.

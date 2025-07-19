@@ -26,12 +26,9 @@ export default function EntryContent({
     });
   };
 
-  const trimContent = (
-    content: string,
-    maxLength: number = maxPreviewLength,
-  ) => {
-    if (content.length <= maxLength || isModal) return content;
-    return content.substring(0, maxLength) + "...";
+  const trimContent = (content: string) => {
+    if (content.length <= maxPreviewLength || isModal) return content;
+    return content.substring(0, maxPreviewLength) + "...";
   };
 
   return (
@@ -70,7 +67,7 @@ export default function EntryContent({
         }
       >
         <p className={"text-muted-foreground text-base leading-relaxed"}>
-          {trimContent(entry.content, maxPreviewLength)}
+          {trimContent(entry.content)}
         </p>
       </div>
       <div className="text-muted-foreground mt-3 flex-shrink-0 text-sm">

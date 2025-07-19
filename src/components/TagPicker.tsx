@@ -75,7 +75,9 @@ export function TagPicker({ options, picked, onChange }: TagPickerProps) {
           aria-expanded={open}
           className="w-[200px] justify-between"
         >
-          {picked.length > 0 ? `${picked.length} selected` : "Select tags..."}
+          {picked.length > 0
+            ? `${picked.length} tags selected`
+            : "Select tags..."}
           <ChevronsUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>

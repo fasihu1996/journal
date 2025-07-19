@@ -14,41 +14,31 @@ import {
 } from "@/components/ui/popover";
 
 interface DatePickerProps {
-  date?: Date;
-  time?: string;
-  onDateChange?: (date: Date | undefined) => void;
-  onTimeChange?: (time: string) => void;
+  onDateChange: (date: Date) => void;
+  onTimeChange: (time: string) => void;
 }
 
-export function DatePicker({
-  date,
-  time,
-  onDateChange,
-  onTimeChange,
-}: DatePickerProps) {
+export function DatePicker({ onDateChange, onTimeChange }: DatePickerProps) {
   const [open, setOpen] = React.useState(false);
-  const [selectedDate, setSelectedDate] = React.useState<Date | undefined>(
-    date,
-  );
+  const [selectedDate, setSelectedDate] = React.useState<Date>(new Date());
   const [selectedTime, setSelectedTime] = React.useState<string>(
-    time ||
-      new Date().toLocaleTimeString("de-DE", {
-        hour12: false,
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-      }),
+    new Date().toLocaleTimeString("de-DE", {
+      hour12: false,
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    }),
   );
 
-  const handleDateSelect = (newDate: Date | undefined) => {
+  const handleDateSelect = (newDate: Date) => {
     setSelectedDate(newDate);
     setOpen(false);
-    onDateChange?.(newDate);
+    onDateChange(newDate);
   };
 
   const handleTimeChange = (newTime: string) => {
     setSelectedTime(newTime);
-    onTimeChange?.(newTime);
+    onTimeChange(newTime);
   };
 
   return (
@@ -72,6 +62,7 @@ export function DatePicker({
           </PopoverTrigger>
           <PopoverContent className="w-auto overflow-hidden p-0" align="start">
             <Calendar
+              required
               mode="single"
               selected={selectedDate}
               captionLayout="dropdown"
