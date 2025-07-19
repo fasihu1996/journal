@@ -1,3 +1,4 @@
+// unit test for EntryContent
 import { render, screen } from "@testing-library/react";
 import EntryContent from "@/components/EntryContent";
 import { maxPreviewLength } from "@/types/journal";
