@@ -1,4 +1,4 @@
-// integration test API -> Page
+// uni test for Page
 import { render, screen, waitFor } from "@testing-library/react";
 import Page from "@/app/page";
 import { entriesApi } from "@/lib/api";
