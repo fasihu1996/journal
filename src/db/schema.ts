@@ -9,6 +9,3 @@ export const entries = sqliteTable("entries", {
   tags: text("tags", { mode: "json" }).notNull(),
   createdAt: integer("createdAt", { mode: "timestamp" }).notNull(),
 });
-
-export type Entry = typeof entries.$inferSelect;
-export type NewEntry = typeof entries.$inferInsert;
